@@ -1,0 +1,61 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg fixed-top bg-primary">
+    <div class="container">
+      <div class="navbar-translate">
+        <a class="navbar-brand" href="#" rel="tooltip" title="This is the way" data-placement="bottom">
+          <span>SocialApp</span> powered by django
+        </a>
+        <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navigation">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a>
+                BLK•
+              </a>
+            </div>
+            <div class="col-6 collapse-close text-right">
+              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'add_friend' %}">
+                        <i class="tim-icons icon-single-02" aria-hidden="true"></i>
+                        Add Friend
+                      </a>
+                    </li>
+                    {% if my_friend_requests == 0 %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="">
+                        <span class="badge badge-default">{{ my_friend_requests }}</span>
+                        Friend Requests
+                      </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal1">
+                        <span class="badge badge-default">{{ my_friend_requests }}</span>
+                        Friend Requests
+                      </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="tim-icons icon-lock-circle"></i> Logout
+                      </a>
+                    </li>
+                  </ul>
+      </div>
+    </div>
+  </nav>
+

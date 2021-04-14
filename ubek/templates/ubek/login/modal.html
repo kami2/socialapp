@@ -1,0 +1,28 @@
+{% load static %}
+  <div class="modal fade modal-mini modal-primary modal-mini" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <i class="tim-icons icon-simple-remove text-white"></i>
+              </button>
+
+
+                <img src="{{ all_friend_requests.from_user.profile.profile_photo.url }}"
+                     style="
+                     width: 70px;
+                     height: 70px;
+                     border-radius: 50%;">
+
+            </div>
+            <div class="modal-body">
+              <p>Do you accept friend request from {{all_friend_requests.from_user}}?</p>
+            </div>
+            <div class="modal-footer">
+              <a href="/accept_friend_request/{{all_friend_requests.id}}/"><button type="button" class="btn btn-link btn-neutral">accept</button></a>
+              <a href="/decline_friend_request/{{all_friend_requests.id}}/"><button type="button" class="btn btn-link btn-neutral">decline</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

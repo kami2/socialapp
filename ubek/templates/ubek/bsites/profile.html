@@ -1,0 +1,183 @@
+<!--
+=========================================================
+* BLK Design System- v1.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/blk-design-system
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEAD -->
+{% include 'ubek/login/head.html' %}
+<!-- END HEAD -->
+
+<body class="profile-page">
+  <!-- Navbar -->
+{% include 'ubek/login/navbar.html' %}
+  <!-- End Navbar -->
+
+
+
+  <!-- Main -->
+
+<div class="wrapper">
+    <div class="page-header">
+      <img src="{% static 'ubek/assets/img/dots.png' %}" class="dots">
+      <img src="{% static 'ubek/assets/img/path4.png' %}" class="path">
+      <div class="container align-items-center">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <h1 class="profile-title text-left">{{ fullname }}</h1>
+            <h5 class="text-on-back">01</h5>
+            <p class="profile-description">{{ about }}</p>
+
+          </div>
+          <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+            <div class="card card-coin card-plain">
+              <div class="card-header">
+                <img src="{{ avatar.url }}" class="img-center img-fluid rounded-circle">
+                <h4 class="title">{{ current_user }}</h4>
+              </div>
+                <div class="card-body">
+                <ul class="nav nav-tabs nav-tabs-primary justify-content-center">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#linka">
+                      Add Friend
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#linkb">
+                      My Friends
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#linkc">
+                      Edit Profile
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content tab-subcategories">
+                  <div class="tab-pane" id="linka">
+                    <div class="table-responsive">
+                      <table class="table tablesorter " id="plain-table">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th class="header">
+                              Send friend request to:
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in all_users %}
+                        {% if not user.is_superuser %}
+                        {% if user not in request.user.friends.all and user != request.user %}
+                          <tr>
+                            <td>
+                              <h5><img src="{{ user.profile.profile_photo.url }}"
+                                       style="vertical-align: middle;
+                                              width: 50px;
+                                              height: 50px;
+                                              border-radius: 50%;">
+                                {{user}} <a href="/send_friend_request/{{user.id}}/">Add to friends</a></h5>
+                            </td>
+                          </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="linkb">
+                    <div class="table-responsive">
+                      <table class="table tablesorter " id="plain-table">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th class="header">
+                              Latest Crypto News
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              The Daily: Nexo to Pay on Stable...
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              Venezuela Begins Public of Nation...
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              PR: BitCanna – Dutch Blockchain...
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="linkc">
+                    <div class="table-responsive">
+                      <table class="table tablesorter " id="plain-table">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th class="header">
+                              Latest Crypto News
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              The Daily: Nexo to Pay on Stable...
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              Venezuela Begins Public of Nation...
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              PR: BitCanna – Dutch Blockchain...
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<br><br>
+
+  <!-- END Main -->
+
+
+
+      <!-- Footer -->
+{% include 'ubek/login/footer.html' %}
+        <!-- END Footer -->
+  </div>
+  <!--   Core JS Files   -->
+  {% include 'ubek/login/scripts.html' %}
+  <!-- END Scripts -->
+</body>
+
+</html>

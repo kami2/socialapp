@@ -1,0 +1,102 @@
+<!--
+=========================================================
+* BLK Design System- v1.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/blk-design-system
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEAD -->
+{% include 'ubek/login/head.html' %}
+<!-- END HEAD -->
+
+<body class="profile-page">
+  <!-- Navbar -->
+{% include 'ubek/login/navbar.html' %}
+  <!-- End Navbar -->
+
+
+
+  <!-- Main -->
+
+<div class="wrapper">
+    <div class="page-header">
+      <img src="{% static 'ubek/assets/img/dots.png' %}" class="dots">
+      <img src="{% static 'ubek/assets/img/path4.png' %}" class="path">
+      <div class="container align-items-center">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <h5 class="text-on-back" style="font-size:40px">Edit Profile</h5>
+            <div class="col-sm-6 col-lg-6">
+                  User Name: <input type="text" value="{{current_user}}" class="form-control" />
+                  First Name: <input type="text" value="{{current_user.first_name}}" class="form-control" />
+                  Last Name: <input type="text" value="{{current_user.last_name}}" class="form-control" />
+                  Email: <input type="text" value="{{current_user.email}}" class="form-control" />
+             <button class="btn btn-primary" type="submit">Save changes</button>
+            </div>
+
+          </div>
+          <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+            <div class="card card-coin card-plain">
+              <div class="card-header">
+                <img src="{{ avatar.url }}" class="img-center img-fluid rounded-circle">
+                <h4 class="title">{{ current_user }}</h4>
+              </div>
+                <div class="card-body">
+                <ul class="nav nav-tabs nav-tabs-primary justify-content-center">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#linka">
+                      Add Friend
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#linkb">
+                      My Friends
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#linkc">
+                      Edit Profile
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content tab-subcategories">
+                  <div class="tab-pane" id="linka">
+                    <div class="table-responsive">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<br><br>
+
+  <!-- END Main -->
+
+
+
+      <!-- Footer -->
+{% include 'ubek/login/footer.html' %}
+        <!-- END Footer -->
+  </div>
+  <!--   Core JS Files   -->
+  {% include 'ubek/login/scripts.html' %}
+  <!-- END Scripts -->
+</body>
+
+</html>
