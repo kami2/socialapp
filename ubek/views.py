@@ -103,6 +103,7 @@ def tests(request):
         all_users = User.objects.all()
         current_user = request.user
         friends_list = request.user.friends.all()[:10]
+        friends_number = current_user.friends.all().count()
         fullname = current_user.first_name + " " + current_user.last_name
         about = current_user.profile.about
         avatar = current_user.profile.profile_photo
@@ -117,6 +118,7 @@ def tests(request):
             'my_friend_requests' : my_friend_requests,
             'all_friend_requests' : all_friend_requests,
             'friends_list' : friends_list,
+            'friends_number': friends_number,
         }
         return render(request, 'ubek/bsites/test.html', content)
     else:
@@ -169,7 +171,7 @@ def user_list(request):
     if request.user.is_authenticated:
         User = get_user_model()
         current_user = request.user
-        all_users = User.objects.exclude(is_superuser=True).exclude(user__friends=current_user).exclude(friends=current_user).exclude(from_user__in=Friend_Request.objects.filter(to_user=current_user)).exclude(to_user__in=Friend_Request.objects.filter(from_user=current_user))
+        all_users = User.objects.exclude(is_superuser=True).exclude(id=current_user.id).exclude(user__friends=current_user).exclude(friends=current_user).exclude(from_user__in=Friend_Request.objects.filter(to_user=current_user)).exclude(to_user__in=Friend_Request.objects.filter(from_user=current_user))
         friends_list = current_user.friends.all()[:6]
         friends_number = current_user.friends.all().count()
         fullname = current_user.first_name + " " + current_user.last_name
@@ -192,6 +194,7 @@ def user_list(request):
             'my_sent_friend_requests': my_sent_friend_requests,
             'friends_number': friends_number,
         }
+
         return render(request, 'ubek/friends/friends_add_list.html', content)
     else:
         return HttpResponse('<h1>You are not logged</h1>')
