@@ -1,8 +1,10 @@
 {% load static %}
-<h2>About Me</h2>
-      <h5>{{ about|truncatewords:15 }}</h5>
+<div><h2>About Me</h2></div>
+<div><h5>{{ about|truncatewords:15 }}</h5></div>
+<div>
+    <h2>Friends  ({{ friends_number }})</h2>
+</div>
 
-      <h2>Friends</h2>
       {% for friend in friends_list %}
       <div class="friends">
 

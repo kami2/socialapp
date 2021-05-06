@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, logout, login, get_user_model
-from .models import Friend_Request
+from .models import Friend_Request, User
 from django.db.models import F
-
+from django.db.models import Q
 
 
 def login_user(request):
@@ -87,6 +87,16 @@ def decline_friend_request(request, requestID):
         return HttpResponse('friend request not accepted')
 
 @login_required
+def cancel_friend_request(request, requestID):
+    friend_request = Friend_Request.objects.get(id=requestID)
+    if friend_request.from_user == request.user:
+        friend_request.delete()
+        return  HttpResponse('friend request canceled')
+    else:
+        return HttpResponse('friend request not canceled')
+
+
+
 def tests(request):
     if request.user.is_authenticated:
         User = get_user_model()
@@ -159,13 +169,15 @@ def user_list(request):
     if request.user.is_authenticated:
         User = get_user_model()
         current_user = request.user
-        all_users = User.objects.exclude(is_superuser=True).exclude(user__friends=current_user).exclude(friends=current_user).exclude(from_user__in=Friend_Request.objects.filter(to_user=current_user))
-        friends_list = current_user.friends.all()[:10]
+        all_users = User.objects.exclude(is_superuser=True).exclude(user__friends=current_user).exclude(friends=current_user).exclude(from_user__in=Friend_Request.objects.filter(to_user=current_user)).exclude(to_user__in=Friend_Request.objects.filter(from_user=current_user))
+        friends_list = current_user.friends.all()[:6]
+        friends_number = current_user.friends.all().count()
         fullname = current_user.first_name + " " + current_user.last_name
         about = current_user.profile.about
         avatar = current_user.profile.profile_photo
         my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
         all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
+        my_sent_friend_requests = Friend_Request.objects.filter(from_user=request.user)
         ajc = Friend_Request.objects.filter(to_user=request.user)
         content = {
             'current_user': current_user,
@@ -177,6 +189,8 @@ def user_list(request):
             'all_friend_requests': all_friend_requests,
             'friends_list': friends_list,
             'ajc': ajc,
+            'my_sent_friend_requests': my_sent_friend_requests,
+            'friends_number': friends_number,
         }
         return render(request, 'ubek/friends/friends_add_list.html', content)
     else:
@@ -186,3 +200,46 @@ def user_list(request):
 def request_list(request):
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user)
     return render(request, 'ubek/friends/accept_friend.html', {'all_friend_requests': all_friend_requests})
+
+
+
+def friends_list(request):
+    if request.user.is_authenticated:
+        User = get_user_model()
+        current_user = request.user
+        all_users = User.objects.exclude(is_superuser=True).exclude(user=current_user).exclude(user__friends=current_user).exclude(friends=current_user).exclude(from_user__in=Friend_Request.objects.filter(to_user=current_user)).exclude(to_user__in=Friend_Request.objects.filter(from_user=current_user))
+        friends_list = current_user.friends.all()[:6]
+        friends_list_all = current_user.friends.all()
+        friends_number = current_user.friends.all().count()
+        fullname = current_user.first_name + " " + current_user.last_name
+        about = current_user.profile.about
+        avatar = current_user.profile.profile_photo
+        my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
+        all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
+        my_sent_friend_requests = Friend_Request.objects.filter(from_user=request.user)
+        ajc = Friend_Request.objects.filter(to_user=request.user)
+        content = {
+            'current_user': current_user,
+            'fullname': fullname,
+            'about': about,
+            'avatar': avatar,
+            'all_users': all_users,
+            'my_friend_requests': my_friend_requests,
+            'all_friend_requests': all_friend_requests,
+            'friends_list': friends_list,
+            'ajc': ajc,
+            'my_sent_friend_requests': my_sent_friend_requests,
+            'friends_number': friends_number,
+            'friends_list_all': friends_list_all,
+        }
+        return render(request, 'ubek/friends/friends_list.html', content)
+    else:
+        return HttpResponse('<h1>You are not logged</h1>')
+
+@login_required
+def delete_friend(request, requestID):
+    user = request.user
+    myfriend = User.objects.get(id=requestID)
+    user.friends.remove(requestID)
+    myfriend.friends.remove(request.user)
+    return  HttpResponse('friend deleted')

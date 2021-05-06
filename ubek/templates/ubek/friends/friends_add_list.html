@@ -58,6 +58,38 @@
 
             <div class="col-sm-8">
 
+           {% if my_sent_friend_requests.count > 0 %}
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-6" align="center">
+                            <h4 class="text-muted text-left">SENT FRIEND REQUEST:</h4>
+                            </div>
+                        </div>
+
+                         <div class="row">
+                            {% for user in my_sent_friend_requests %}
+                            <div class="col-sm-4" align="center">
+                                <p><img src="{{ user.to_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px; height: 80px"></p>
+                                <p>{{ user.to_user }}</p>
+                                <p><a href="/cancel_friend_request/{{user.id}}/">cancel friend request</a></p>
+                            </div>
+                            {% if forloop.counter|divisibleby:3 %}
+                        </div>
+
+                        <div class="row">
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            {% endif %}
+
+
+
+            {% if my_friend_requests > 0 %}
                 <div class="card">
                     <div class="card-body">
 
@@ -85,6 +117,7 @@
 
                     </div>
                 </div>
+            {% endif %}
 
 
                 <div class="card">
@@ -99,6 +132,7 @@
                         <div class="row">
                             {% for user in all_users %}
                             <div class="col-sm-4" align="center">
+
                                 <p><img src="{{ user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px; height: 80px"></p>
                                 <p>{{ user }}</p>
                                 <p><a href="/send_friend_request/{{user.id}}/">send friend request</a></p>
