@@ -42,40 +42,68 @@
                   <h4 class="card-title">Register</h4>
                 </div>
                 <div class="card-body">
-                  <form class="form" method="post">
-                    {% autoescape off %}
-                    {% csrf_token %}
+
+
+                <form method="POST" action="">
+                  {% csrf_token %}
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <div class="input-group-text">
-                          <i class="tim-icons icon-single-02"></i>
+                          <i class="tim-icons icon-badge" style="margin-right: 10px;"></i>
                         </div>
                       </div>
-                      <input type="text" class="form-control" name="username" placeholder="Username">
+                    {{ form.username }}
+                    </div>
+                   <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="tim-icons icon-single-02" style="margin-right: 10px;"></i>
+                        </div>
+                      </div>
+                    {{ form.first_name }}
                     </div>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <div class="input-group-text">
-                          <i class="tim-icons icon-email-85"></i>
+                          <i class="tim-icons icon-single-02" style="margin-right: 10px;"></i>
                         </div>
                       </div>
-                      <input type="text" name="email" placeholder="Email" class="form-control">
+                    {{ form.last_name }}
                     </div>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <div class="input-group-text">
-                          <i class="tim-icons icon-lock-circle"></i>
+                          <i class="tim-icons icon-email-85" style="margin-right: 10px;"></i>
                         </div>
                       </div>
-                      <input type="password" name="password" class="form-control" placeholder="Password">
+                      {{ form.email }}
                     </div>
-                    <button type="submit" class="btn btn-info btn-round btn-lg">Get Started</button>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="tim-icons icon-lock-circle" style="margin-right: 10px;"></i>
+                        </div>
+                      </div>
+                      {{ form.password1 }}
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="tim-icons icon-lock-circle" style="margin-right: 10px;"></i>
+                        </div>
+                      </div>
+                      {{ form.password2 }}
+                    </div>
+                    <div>{{ form.errors }}</div>
+                    <button type="submit" name="Create User" class="btn btn-info btn-round btn-lg">Get Started</button>
+                    <div>Already have an account? <a href="{% url 'login' %}">Login</a></div>
+                </form>
+
+
                 </div>
-                {% endautoescape %}
-                  </form>
+                <br>
               </div>
             </div>
-          </div>
           <div class="register-bg"></div>
           <div id="square1" class="square square-1"></div>
           <div id="square2" class="square square-2"></div>

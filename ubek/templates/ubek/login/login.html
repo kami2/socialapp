@@ -27,8 +27,8 @@
   <!-- End Navbar -->
 
   <!-- Main -->
-  <div class="wrapper">
-    <div class="page-header">
+
+    <div class="page-header" style="margin-bottom: 0px;">
       <div class="page-header-image"></div>
       <div class="content">
         <div class="container">
@@ -48,7 +48,7 @@
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <div class="input-group-text">
-                          <i class="tim-icons icon-single-02"></i>
+                          <i class="tim-icons icon-single-02" style="margin-right: 10px;"></i>
                         </div>
                       </div>
                       <input type="text" class="form-control" name="username" placeholder="Username">
@@ -56,12 +56,16 @@
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <div class="input-group-text">
-                          <i class="tim-icons icon-lock-circle"></i>
+                          <i class="tim-icons icon-lock-circle" style="margin-right: 10px;"></i>
                         </div>
                       </div>
                       <input type="password" name="password" class="form-control" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-info btn-round btn-lg">Login</button>
+                    <div>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></div>
+                    {% for message in messages %}
+                    <div>{{ message }}</div>
+                    {% endfor %}
                 </div>
                 {% endautoescape %}
                   </form>
@@ -77,12 +81,10 @@
           <div id="square6" class="square square-6"></div>
         </div>
       </div>
-    </div>
       <!-- END Main -->
       <!-- Footer -->
 {% include 'ubek/login/footer.html' %}
         <!-- END Footer -->
-  </div>
   <!--   Core JS Files   -->
   {% include 'ubek/login/scripts.html' %}
   <!-- END Scripts -->

@@ -3,9 +3,10 @@ from . import views
 
 
 urlpatterns = [
-    path('login/', views.login_user),
+    path('', views.tests, name='home'),
+    path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
-    path('register/', views.register),
+    path('register/', views.registerPage, name='register'),
     path('check', views.index),
     path('send_friend_request/<int:userID>/', views.send_friend_request, name='send_friend_request'),
     path('accept_friend_request/<int:requestID>/', views.accept_friend_request, name='accept friend request'),
@@ -14,7 +15,6 @@ urlpatterns = [
     path('delete_friend/<int:requestID>/', views.delete_friend, name='delete friend'),
     path('add-friend', views.user_list, name='add_friend'),
     path('re-list', views.request_list),
-    path('', views.tests, name='home'),
     path('editprofile', views.editprofile),
     path('friends_list', views.friends_list, name='friends list'),
     path('new', views.profile),

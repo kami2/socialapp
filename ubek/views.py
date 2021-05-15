@@ -3,21 +3,25 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, logout, login, get_user_model
 from .models import Friend_Request, User
-from django.db.models import F
-from django.db.models import Q
+
+from django.contrib import messages
+
+from .forms import CreateUserForm
 
 
 def login_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        if(username == ""): return HttpResponse("No username")
-        if(password == ""): return HttpResponse("No password")
-        user = authenticate(username=username, password=password)
-        if(user is None): return HttpResponse("<h1>Unauthorized</h1>")
-        else:
-            login(request, user)
-            return redirect('/')
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if(user is None):
+                messages.info(request, 'Username OR password is incorrect')
+            else:
+                login(request, user)
+                return redirect('home')
 
     return render(request, 'ubek/login/login.html')
 
@@ -31,29 +35,28 @@ def index(request):
 
 def logout_user(request):
     logout(request)
+    return redirect('login')
 
-    return HttpResponse("<h1>logged out</h1>")
+def registerPage(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        form = CreateUserForm()
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Accout was created for ' + user)
+
+                return redirect('login')
+
+    context = {'form':form}
+    return render(request, 'ubek/bsites/register.html', context)
 
 
-def register(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        email = request.POST['email']
-        if(username == ""): return HttpResponse("No username")
-        if(password == ""): return HttpResponse("No password")
-        if(email == ""): return HttpResponse("No email")
-        User = get_user_model()
-        User.objects.create_user(username=username, password=password, email=email)
-        user = authenticate(username=username, password=password)
-        if (user is None): return HttpResponse("<h1>Unauthorized</h1>")
-        else:
-            login(request, user)
-            return redirect('/')
 
-    return render(request, 'ubek/login/register.html')
-
-@login_required
+@login_required(login_url='login')
 def send_friend_request(request, userID):
     User = get_user_model()
     from_user = request.user
@@ -65,7 +68,8 @@ def send_friend_request(request, userID):
     else:
         return HttpResponse('friend request was already sent')
 
-@login_required
+
+@login_required(login_url='login')
 def accept_friend_request(request, requestID):
     friend_request = Friend_Request.objects.get(id=requestID)
     if friend_request.to_user == request.user:
@@ -77,7 +81,7 @@ def accept_friend_request(request, requestID):
         return HttpResponse('friend request not accepted')
 
 
-@login_required
+@login_required(login_url='login')
 def decline_friend_request(request, requestID):
     friend_request = Friend_Request.objects.get(id=requestID)
     if friend_request.to_user == request.user:
@@ -86,7 +90,7 @@ def decline_friend_request(request, requestID):
     else:
         return HttpResponse('friend request not accepted')
 
-@login_required
+@login_required(login_url='login')
 def cancel_friend_request(request, requestID):
     friend_request = Friend_Request.objects.get(id=requestID)
     if friend_request.from_user == request.user:
@@ -97,6 +101,7 @@ def cancel_friend_request(request, requestID):
 
 
 
+@login_required(login_url='login')
 def tests(request):
     if request.user.is_authenticated:
         User = get_user_model()
@@ -125,6 +130,8 @@ def tests(request):
         return HttpResponse('<h1>You are not logged</h1>')
 
 
+
+@login_required(login_url='login')
 def profile(request):
     if request.user.is_authenticated:
         User = get_user_model()
@@ -144,6 +151,9 @@ def profile(request):
     else:
         return HttpResponse('<h1>You are not logged</h1>')
 
+
+
+@login_required(login_url='login')
 def editprofile(request):
     if request.user.is_authenticated:
         User = get_user_model()
@@ -166,7 +176,7 @@ def editprofile(request):
 
 
 
-@login_required
+@login_required(login_url='login')
 def user_list(request):
     if request.user.is_authenticated:
         User = get_user_model()
@@ -205,7 +215,7 @@ def request_list(request):
     return render(request, 'ubek/friends/accept_friend.html', {'all_friend_requests': all_friend_requests})
 
 
-
+@login_required(login_url='login')
 def friends_list(request):
     if request.user.is_authenticated:
         User = get_user_model()
@@ -239,7 +249,7 @@ def friends_list(request):
     else:
         return HttpResponse('<h1>You are not logged</h1>')
 
-@login_required
+@login_required(login_url='login')
 def delete_friend(request, requestID):
     user = request.user
     myfriend = User.objects.get(id=requestID)
