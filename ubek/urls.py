@@ -15,7 +15,7 @@ urlpatterns = [
     path('delete_friend/<int:requestID>/', views.delete_friend, name='delete friend'),
     path('add-friend', views.user_list, name='add_friend'),
     path('re-list', views.request_list),
-    path('editprofile', views.editprofile),
+    path('editprofile', views.editprofile, name='editprofile'),
     path('friends_list', views.friends_list, name='friends list'),
     path('new', views.profile),
 ]

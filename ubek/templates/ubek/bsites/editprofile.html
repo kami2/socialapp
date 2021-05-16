@@ -30,6 +30,7 @@
 
   <!-- Main -->
 
+
 <div class="wrapper">
     <div class="page-header">
       <img src="{% static 'ubek/assets/img/dots.png' %}" class="dots">
@@ -38,56 +39,50 @@
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <h5 class="text-on-back" style="font-size:40px">Edit Profile</h5>
-            <div class="col-sm-6 col-lg-6">
-                  User Name: <input type="text" value="{{current_user}}" class="form-control" />
-                  First Name: <input type="text" value="{{current_user.first_name}}" class="form-control" />
-                  Last Name: <input type="text" value="{{current_user.last_name}}" class="form-control" />
-                  Email: <input type="text" value="{{current_user.email}}" class="form-control" />
-             <button class="btn btn-primary" type="submit">Save changes</button>
+            <div class="col-sm-6 col-lg-10">
+              <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                  About me:
+                <div>{{ form_edit.about }}</div>
+             <button class="btn btn-primary" type="submit" name="Update profile">Save changes</button>
             </div>
 
           </div>
           <div class="col-lg-4 col-md-6 ml-auto mr-auto">
             <div class="card card-coin card-plain">
               <div class="card-header">
-                <img src="{{ avatar.url }}" class="img-center img-fluid rounded-circle">
-                <h4 class="title">{{ current_user }}</h4>
+                <img src="{{ current_user.profile.profile_photo.url }}" class="img-center img-fluid rounded-circle">
+                <h4 class="title">{{ current_user.first_name }} {{ current_user.last_name }}</h4>
+                <div>
+                   First Name:
+                <p>{{ form.first_name }}</p>
+                  Last Name:
+                <p>{{ form.last_name }}</p>
+                  Day of Birth:
+                <p>{{ form_edit.birth_date }}</p>
+                  Email:
+                <p>{{ form.email }}</p>
+                  Profile Photo:
+                <p>{{ form_edit.profile_photo }}</p>
+                  </form>
               </div>
-                <div class="card-body">
-                <ul class="nav nav-tabs nav-tabs-primary justify-content-center">
-                  <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#linka">
-                      Add Friend
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#linkb">
-                      My Friends
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#linkc">
-                      Edit Profile
-                    </a>
-                  </li>
-                </ul>
-                <div class="tab-content tab-subcategories">
-                  <div class="tab-pane" id="linka">
-                    <div class="table-responsive">
-
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-<br><br>
+
+
+
+
+
 
   <!-- END Main -->
 
+  <!-- modal -->
+{% include 'ubek/login/modal.html' %}
+  <!-- END modal -->
 
 
       <!-- Footer -->

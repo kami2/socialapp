@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, logout, login, get_user_model
 from .models import Friend_Request, User
-
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib import messages
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, EditProfile, EditUserForm
 
 
 def login_user(request):
@@ -155,23 +155,29 @@ def profile(request):
 
 @login_required(login_url='login')
 def editprofile(request):
-    if request.user.is_authenticated:
-        User = get_user_model()
-        all_users = User.objects.all()
-        current_user = request.user
-        fullname = current_user.first_name + " " + current_user.last_name
-        about = current_user.profile.about
-        avatar = current_user.profile.profile_photo
-        content = {
+    current_user = request.user
+    my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
+    all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
+    form_edit = EditProfile(instance=current_user.profile)
+    form = EditUserForm(instance=current_user)
+
+    if request.method == 'POST':
+        form_edit = EditProfile(request.POST, request.FILES, instance=current_user.profile)
+        if form_edit.is_valid():
+            form_edit.save()
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=current_user)
+        if form.is_valid():
+            form.save()
+
+    content = {
             'current_user': current_user,
-            'fullname': fullname,
-            'about': about,
-            'avatar': avatar,
-            'all_users': all_users,
+            'form_edit': form_edit,
+            'form': form,
+            'my_friend_requests': my_friend_requests,
+            'all_friend_requests': all_friend_requests,
         }
-        return render(request, 'ubek/bsites/editprofile.html', content)
-    else:
-        return HttpResponse('<h1>You are not logged</h1>')
+    return render(request, 'ubek/bsites/editprofile.html', content)
 
 
 
