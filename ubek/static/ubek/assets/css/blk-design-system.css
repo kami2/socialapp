@@ -347,7 +347,8 @@ input[type="month"] {
 }
 
 textarea {
-  overflow: auto;
+  rows: 4;
+  cols: 70;
   resize: none;
 }
 
@@ -16241,8 +16242,6 @@ fieldset[disabled] .form-control {
 }
 
 textarea.form-control {
-  height: 14em;
-  width: 80em;
   padding: 10px 10px 0 0;
   resize: none;
   border: none;

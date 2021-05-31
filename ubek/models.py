@@ -18,7 +18,6 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -27,6 +26,16 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+class PostWall(models.Model):
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    title = models.CharField(max_length=160)
+    text = models.TextField()
+    pub_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.user)
 
 
 class Friend_Request(models.Model):

@@ -2,7 +2,7 @@ from django.forms import ModelForm, Textarea
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django import forms
-from .models import Profile
+from .models import Profile, PostWall
 
 
 
@@ -61,4 +61,26 @@ class EditUserForm(UserChangeForm):
             'first_name': forms.TextInput(attrs={'placeholder': 'First name', 'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Last name', 'class': 'form-control'}),
             'email': forms.TextInput(attrs={'placeholder': 'Email address', 'class': 'form-control'}),
+        }
+
+class PostForm(ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'What are you thinking?',
+                                                        'class': 'form-control',
+                                                        'style': 'height: 70px;width:700px'}))
+    class Meta:
+        model = PostWall
+        fields = ['title', 'text']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Post title', 'class': 'form-control'}),
+        }
+
+class EditPostForm(ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'What are you thinking?',
+                                                        'class': 'form-control',
+                                                        'style': 'height: 70px;width:700px'}))
+    class Meta:
+        model = PostWall
+        fields = ['title', 'text']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Post title', 'class': 'form-control'}),
         }
