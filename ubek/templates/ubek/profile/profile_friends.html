@@ -1,0 +1,93 @@
+<!--
+=========================================================
+* BLK Design System- v1.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/blk-design-system
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEAD -->
+{% include 'ubek/login/head.html' %}
+<!-- END HEAD -->
+
+<body class="profile-page">
+  <!-- Navbar -->
+{% include 'ubek/login/navbar.html' %}
+  <!-- End Navbar -->
+
+
+  <!-- Profile Nav-->
+{% include 'ubek/profile/profile_head.html' %}
+  <!-- END Profile Nav
+
+  <!-- Main -->
+
+      <div class="col-sm-8">
+         <div class="row">
+            <div class="col text-right"><h2 class="text-muted">FRIENDS</h2></div>
+         </div>
+
+
+
+      <div class="card">
+        <div class="card-header">
+          <h3>{{ show_profile.first_name }}'s Friends</h3>
+        </div>
+
+        <div class="card-body" style="margin-top: -35px;">
+        <div class="row">
+              {% for friend in friend_list_left %}
+
+              <div class="col-sm-2">
+              <div align="center" style="position: relative;"><a href="{% url 'profile page' friend.id %}"><img src="{{ friend.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
+               height: 80px;"></a></div>
+              {% if show_profile == request.user %}
+              <div style="position: absolute; top: -10px; right: -10px;"><a href="/delete_friend/{{friend.id}}/"><i class="fas fa-minus-circle btn-tooltip btn-sm" data-toggle="tooltip" data-placement="top" title="" data-container="body" data-animation="true" data-original-title="Remove Friend" style="color:#f54257; font-size: 20px;"></i></a></div>
+              {% endif %}
+              <div align="center"><a href="{% url 'profile page' friend.id %}"><p>{{ friend.first_name }} {{ friend.last_name }}</p></a></div>
+              </div>
+
+              {% endfor %}
+        </div>
+
+
+        </div>
+      </div>
+
+
+</div>
+    </div>
+<br><br>
+
+
+
+
+
+  <!-- END Main -->
+
+  <!-- modal -->
+{% include 'ubek/login/modal.html' %}
+  <!-- END modal -->
+
+
+      <!-- Footer -->
+{% include 'ubek/login/footer.html' %}
+        <!-- END Footer -->
+  </div>
+  <!--   Core JS Files   -->
+  {% include 'ubek/login/scripts.html' %}
+  <!-- END Scripts -->
+</body>
+
+</html>

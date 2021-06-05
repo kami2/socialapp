@@ -1,0 +1,80 @@
+{% load static %}
+<div class="wrapper">
+    <div class="profile-page">
+      <img src="{% static 'ubek/assets/img/dots.png' %}" class="dots">
+      <img src="{% static 'ubek/assets/img/path4.png' %}" class="path">
+        <div class="container" style="margin-top:100px">
+
+
+          <div class="row">
+            <div class="col" align="center"><img src="{{ show_profile.profile.profile_photo.url }}" alt="Raised image" class="img-fluid rounded-circle shadow-lg" style="width: 150px; height: 150px; margin-bottom: 20px;"></div>
+          </div>
+
+          <div class="row">
+              <div class="col" align="center"><h1>{{ show_profile.first_name }} {{ show_profile.last_name }}</h1></div>
+          </div>
+
+
+<nav class="navbar navbar-expand-lg bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'profile page' show_profile.id %}">Posts</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-bar navbar-kebab"></span>
+    <span class="navbar-toggler-bar navbar-kebab"></span>
+    <span class="navbar-toggler-bar navbar-kebab"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'profile about' show_profile.id %}">About me <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile friends' show_profile.id %}">Friends</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+      {% if request.user in friends_list_all %}
+        <a href="{% url 'delete friend' show_profile.id %}" class="btn btn-primary btn-round btn-sm">
+            <i class="tim-icons icon-simple-remove"></i> Remove friend
+        </a>
+      {% elif request.user == show_profile %}
+      {% else %}
+        <a href="{% url 'send_friend_request' show_profile.id %}" class="btn btn-primary btn-round btn-sm">
+            <i class="tim-icons icon-simple-add"></i> Add friend
+        </a>
+      {% endif %}
+      </span>
+    </div>
+  </div>
+</nav>
+
+  <div class="row" style="margin-top: 10px;">
+
+    <div class="col-sm-4">
+          <div class="row">
+            <div class="col text-left"><h2 class="text-muted">FRIENDS ({{ friend_number }})</h2></div>
+          </div>
+
+
+        <div class="card">
+
+          <div class="card-body">
+            <div class="row">
+              {% if friends_list_all %}
+              {% for friend in friends_list_all %}
+
+              <div class="col-sm-4">
+              <div align="center"><a href="{% url 'profile page' friend.id %}"><img src="{{ friend.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px; height: 80px; margin-left: 0px;"></a></div>
+              <div align="center"><p><a href="{% url 'profile page' friend.id %}">{{ friend.first_name|truncatechars:9 }} {{ friend.last_name|truncatechars:9 }}</a></p></div>
+              </div>
+
+              {% endfor %}
+              {% else %}
+              <div class="col">
+              <div align="center"><p>{{ show_profile.first_name }} has no friends yet</p></div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>

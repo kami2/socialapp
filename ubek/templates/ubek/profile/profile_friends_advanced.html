@@ -1,0 +1,149 @@
+<!--
+=========================================================
+* BLK Design System- v1.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/blk-design-system
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEAD -->
+{% include 'ubek/login/head.html' %}
+<!-- END HEAD -->
+
+<body class="profile-page">
+  <!-- Navbar -->
+{% include 'ubek/login/navbar.html' %}
+  <!-- End Navbar -->
+
+
+  <!-- Profile Nav-->
+{% include 'ubek/profile/profile_head.html' %}
+  <!-- END Profile Nav
+
+  <!-- Main -->
+
+      <div class="col-sm-8">
+         <div class="row">
+            <div class="col text-right"><h2 class="text-muted">FRIENDS</h2></div>
+         </div>
+
+
+        <!-- MESSAGE -->
+        {% for message in messages %}
+        <div class="alert alert-info alert-with-icon">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+            </button>
+            <span data-notify="icon" class="tim-icons icon-trophy"></span>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+        <!-- END MESSAGE -->
+
+
+        {% if my_sent_friend_requests %}
+        <div class="card">
+        <div class="card-header">
+          <h3>SENT FRIEND REQUEST:</h3>
+        </div>
+
+        <div class="card-body" style="margin-top: -35px;">
+        <div class="row">
+              {% for user in my_sent_friend_requests %}
+              <div class="col-sm-3">
+                <div align="center"><a href="{% url 'profile page' user.id %}"><img src="{{ user.to_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
+               height: 80px; margin-top:15px;"></a></div>
+                <div align="center"><a href="{% url 'profile page' user.id %}"><p>{{ user.to_user.first_name|truncatechars:14 }} {{ user.to_user.last_name|truncatechars:14 }}</p></a></div>
+                <div align="center"><a href="{% url 'cancel friend request' user.id %}">cancel friend request</a></div>
+              </div>
+              {% endfor %}
+        </div>
+
+
+        </div>
+      </div>
+      {% endif %}
+
+      {% if request_from_user %}
+      <div class="card">
+        <div class="card-header">
+          <h3>RECEIVED FRIEND REQUEST:</h3>
+        </div>
+
+        <div class="card-body" style="margin-top: -35px;">
+        <div class="row">
+              {% for user in request_from_user %}
+              <div class="col-sm-3">
+                <div align="center"><a href="{% url 'profile page' user.id %}"><img src="{{ user.from_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
+               height: 80px; margin-top:15px;"></a></div>
+                <div align="center"><a href="{% url 'profile page' user.id %}"><p>{{ user.from_user.first_name|truncatechars:14 }} {{ user.from_user.last_name|truncatechars:14 }}</p></a></div>
+                <div align="center"><a href="{% url 'accept friend request' user.id %}">accept friend request</a></div>
+                <div align="center"><a href="{% url 'decline_friend_request' user.id %}">decline friend request</a></div>
+              </div>
+              {% endfor %}
+        </div>
+
+
+        </div>
+      </div>
+      {% endif %}
+
+      {% if all_users %}
+      <div class="card">
+        <div class="card-header">
+          <h3>SEND FRIEND REQUEST:</h3>
+        </div>
+
+        <div class="card-body" style="margin-top: -35px;">
+        <div class="row">
+              {% for user in all_users %}
+              <div class="col-sm-3">
+                <div align="center"><a href="{% url 'profile page' user.id %}"><img src="{{ user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
+               height: 80px; margin-top:15px;"></a></div>
+                <div align="center"><a href="{% url 'profile page' user.id %}"><p>{{ user.first_name|truncatechars:14 }} {{ user.last_name|truncatechars:14 }}</p></a></div>
+                <div align="center"><a href="/send_friend_request/{{user.id}}/">send friend request</a></div>
+              </div>
+              {% endfor %}
+        </div>
+
+
+        </div>
+      </div>
+      {% endif %}
+
+</div>
+    </div>
+<br><br>
+
+
+
+
+
+  <!-- END Main -->
+
+  <!-- modal -->
+{% include 'ubek/login/modal.html' %}
+  <!-- END modal -->
+
+
+      <!-- Footer -->
+{% include 'ubek/login/footer.html' %}
+        <!-- END Footer -->
+  </div>
+  <!--   Core JS Files   -->
+  {% include 'ubek/login/scripts.html' %}
+  <!-- END Scripts -->
+</body>
+
+</html>

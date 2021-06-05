@@ -51,7 +51,9 @@
           <div class="col-lg-4 col-md-6 ml-auto mr-auto">
             <div class="card card-coin card-plain">
               <div class="card-header">
-                <img src="{{ current_user.profile.profile_photo.url }}" class="img-center img-fluid rounded-circle">
+                <img src="{{ current_user.profile.profile_photo.url }}" class="img-center img-fluid rounded-circle" style="border-radius: 50%;
+                                                                                                                           width: 150px;
+                                                                                                                           height: 150px;">
                 <h4 class="title">{{ current_user.first_name }} {{ current_user.last_name }}</h4>
                 <div>
                    First Name:

@@ -1,0 +1,80 @@
+<!--
+=========================================================
+* BLK Design System- v1.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/blk-design-system
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEAD -->
+{% include 'ubek/login/head.html' %}
+<!-- END HEAD -->
+
+<body class="profile-page">
+  <!-- Navbar -->
+{% include 'ubek/login/navbar.html' %}
+  <!-- End Navbar -->
+
+
+  <!-- Profile Nav-->
+{% include 'ubek/profile/profile_head.html' %}
+  <!-- END Profile Nav
+
+  <!-- Main -->
+
+      <div class="col-sm-8">
+         <div class="row">
+            <div class="col text-right"><h2 class="text-muted">ABOUT ME</h2></div>
+         </div>
+
+
+      <!-- ABOUT -->
+      <div class="card">
+        <div class="card-header">
+          <h3>{{ show_profile.first_name }} {{ show_profile.last_name }} born in {{ show_profile.profile.birth_date }}</h3>
+        </div>
+
+        <div class="card-body" style="margin-top: -35px;">
+          <p>{{ show_profile.profile.about }}</p>
+        </div>
+      </div>
+     <!-- END ABOUT -->
+
+      </div>
+  </div>
+</div>
+    </div>
+<br><br>
+
+
+
+
+
+  <!-- END Main -->
+
+  <!-- modal -->
+{% include 'ubek/login/modal.html' %}
+  <!-- END modal -->
+
+
+      <!-- Footer -->
+{% include 'ubek/login/footer.html' %}
+        <!-- END Footer -->
+  </div>
+  <!--   Core JS Files   -->
+  {% include 'ubek/login/scripts.html' %}
+  <!-- END Scripts -->
+</body>
+
+</html>

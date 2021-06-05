@@ -27,49 +27,17 @@
   <!-- End Navbar -->
 
 
+  <!-- Profile Nav-->
+{% include 'ubek/profile/profile_head.html' %}
+  <!-- END Profile Nav
 
   <!-- Main -->
 
-<div class="wrapper">
-    <div class="profile-page">
-      <img src="{% static 'ubek/assets/img/dots.png' %}" class="dots">
-      <img src="{% static 'ubek/assets/img/path4.png' %}" class="path">
-        <div class="container" style="margin-top:150px">
-
-          <div class="row">
-            <div class="col-sm-2"><img src="{{ avatar.url }}" alt="Raised image" class="img-fluid rounded shadow-lg" style="width: 150px; margin-bottom: 20px;"></div>
-            <div class="col-sm-10"><h1>{{ fullname }}</h1></div>
-
-          </div>
 
 
-
-
-  <div class="row">
-    <div class="col-sm-4">
-        <!-- LEFT BLOCK -->
-{% include 'ubek/login/left_block.html' %}
-        <!-- END left_block -->
-    </div>
-    <div class="col-sm-8">
-
-        <!-- MESSAGE -->
-
-        {% for message in messages %}
-        <div class="alert alert-info alert-with-icon">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="tim-icons icon-simple-remove"></i>
-            </button>
-            <span data-notify="icon" class="tim-icons icon-trophy"></span>
-            <span><b> Heads up! - </b> {{ message }}</span>
-        </div>
-        {% endfor %}
-
-        <!-- END MESSAGE -->
-
-    <!-- ADD POST -->
-
-        <form method='POST' action="">
+      <div class="col-sm-8">
+      {% if show_profile == request.user %}
+      <form method='POST' action="">
         {% autoescape off %}
         {% csrf_token %}
         <div class="card">
@@ -81,17 +49,19 @@
         </div>
         </div>
         {% endautoescape %}
-        </form>
+      </form>
+      {% endif %}
 
-    <!-- END ADD POST -->
-
-      <div class="row">
+         <div class="row">
             <div class="col text-right"><h2 class="text-muted">POSTS</h2></div>
-          </div>
+         </div>
+
+
       <!-- POST -->
-      {% for post in posts_all %}
+      {% for post in posts_order %}
       <div class="card">
         <div class="card-header row">
+            <a href="{% url 'profile page' post.user.id %}">
              <img src="{{ post.user.profile.profile_photo.url }}"
                                        style="width: 50px;
                                               margin-left: 10px;
@@ -99,8 +69,8 @@
                                               margin-right: -5px;
                                               height: 50px;
                                               border-radius: 50%;
-                                              margin-bottom: 5px;">
-            <div class="col-sm-4">{{ post.user }}</div>
+                                              margin-bottom: 5px;"></a>
+            <div class="col-sm-4"><a href="{% url 'profile page' post.user.id %}">{{ post.user.first_name }} {{ post.user.last_name }}</a></div>
             <div class="col-sm-7" align="right">{{ post.pub_date }} </div>
         </div>
 
@@ -114,12 +84,11 @@
           <p>{{ post.text|truncatewords:80 }}</p>
         </div>
 
-
-        {% if post.user == request.user %}
+          {% if post.user == request.user and show_profile == request.user %}
         <div class="row" style="margin-right: 0px; margin-bottom: 5px;">
             <div class="col" align="right">
             <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-icon dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-default btn-icon dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="tim-icons icon-pencil"></i>
             </button>
             <div class="dropdown-menu">
@@ -159,7 +128,7 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary my-4" name="Edit Post">Save</button>
+                  <button type="submit" class="btn btn-primary my-4" name="Edit Post" value="{{ post.id }}">Save</button>
                 </div>
               </form>
             </div>
@@ -170,8 +139,7 @@
       </div>
       {% endfor %}
      <!-- END POST -->
-
-    </div>
+      </div>
   </div>
 </div>
     </div>

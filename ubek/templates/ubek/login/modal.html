@@ -16,7 +16,7 @@
 
             </div>
             <div class="modal-body">
-              <p>Do you accept friend request from {{all_friend_requests.from_user}}?</p>
+              <p>Do you accept friend request from {{all_friend_requests.from_user.first_name}} {{all_friend_requests.from_user.last_name}}?</p>
             </div>
             <div class="modal-footer">
               <a href="/accept_friend_request/{{all_friend_requests.id}}/"><button type="button" class="btn btn-link btn-neutral">accept</button></a>
