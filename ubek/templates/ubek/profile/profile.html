@@ -52,6 +52,16 @@
       </form>
       {% endif %}
 
+          {% for message in messages %}
+        <div class="alert alert-info alert-with-icon">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+            </button>
+            <span data-notify="icon" class="tim-icons icon-trophy"></span>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+
          <div class="row">
             <div class="col text-right"><h2 class="text-muted">POSTS</h2></div>
          </div>
@@ -94,7 +104,7 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" data-toggle="modal" data-target="#editpost{{post.id}}" href="#">Edit</a>
                 <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/delete_post/{{ post.id }}/">Delete Post</a>
+                    <a class="dropdown-item" href="{% url 'delete post' post.id %}">Delete Post</a>
 
             </div>
             </div>

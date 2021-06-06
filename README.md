@@ -12,6 +12,8 @@ https://demos.creative-tim.com/blk-design-system/
 
 -Add PostWall (you can add/edit/delete post)
 
+-Add notification after delete post
+
 
 -Profile Page
 -
