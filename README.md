@@ -10,9 +10,13 @@ https://demos.creative-tim.com/blk-design-system/
 -Post Wall
 -
 
+-Add Endless scroll (django pagination + infinity.js and waypoint.js)
+
 -Add PostWall (you can add/edit/delete post)
 
--Add notification after delete post
+-Add notification after delete 
+
+-Now you see friends post on your wall
 
 -Add detail post page
 
@@ -31,6 +35,8 @@ https://demos.creative-tim.com/blk-design-system/
 -
 
 -Add edit user profile with extended polls (used both UserChangeForm and ModelForm for extended User profile)
+
+-Add notification bar
 
 -Fixed redirects
 

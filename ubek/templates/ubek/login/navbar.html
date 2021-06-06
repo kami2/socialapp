@@ -30,6 +30,12 @@
                   <ul class="navbar-nav ml-auto">
                      {% if request.user.is_authenticated %}
                     <li class="nav-item">
+                      <a class="nav-link" href="{% url 'profile about' request.user.id %}">
+                        <i class="tim-icons icon-single-02" aria-hidden="true"></i>
+                       Hello {{ request.user.first_name }}
+                      </a>
+                    </li>
+                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'editprofile' %}">
                         <i class="tim-icons icon-settings-gear-63" aria-hidden="true"></i>
                         Edit Profile
@@ -37,7 +43,7 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{% url 'add_friend' %}">
-                        <i class="tim-icons icon-single-02" aria-hidden="true"></i>
+                        <i class="fas fa-users" aria-hidden="true"></i>
                         Add Friend
                       </a>
                     </li>

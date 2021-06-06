@@ -35,7 +35,7 @@
 
 
 
-      <div class="col-sm-8">
+  <div class="col-sm-8">
       {% if show_profile == request.user %}
       <form method='POST' action="">
         {% autoescape off %}
@@ -52,7 +52,7 @@
       </form>
       {% endif %}
 
-          {% for message in messages %}
+        {% for message in messages %}
         <div class="alert alert-info alert-with-icon">
             <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
                 <i class="tim-icons icon-simple-remove"></i>
@@ -69,8 +69,9 @@
          {% endif %}
 
       <!-- POST -->
-      {% for post in posts_order %}
-      <div class="card">
+      <div class="infinite-container">
+      {% for post in page_obj %}
+      <div class="card infinite-item">
         <div class="card-header row">
             <a href="{% url 'profile page' post.user.id %}">
              <img src="{{ post.user.profile.profile_photo.url }}"
@@ -155,18 +156,37 @@
 
       </div>
       {% endfor %}
-     <!-- END POST -->
       </div>
+
+    {% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">More</a>
+    {% endif %}
+
   </div>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+
+      offset: 'bottom-in-view',
+
+      onBeforePageLoad: function () {
+
+      },
+      onAfterPageLoad: function () {
+
+      }
+
+    });
+  </script>
+
+       <!-- END POST -->
+
+   </div>
 </div>
     </div>
 <br><br>
-
-
-
-
-
-  <!-- END Main -->
+    <!-- END Main -->
 
   <!-- modal -->
 {% include 'ubek/login/modal.html' %}
@@ -178,7 +198,7 @@
         <!-- END Footer -->
   </div>
   <!--   Core JS Files   -->
-  {% include 'ubek/login/scripts.html' %}
+
   <!-- END Scripts -->
 </body>
 

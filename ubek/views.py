@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, logout, login, get_user_model
 from .models import Friend_Request, User, PostWall
 from django.contrib import messages
@@ -126,10 +126,13 @@ def cancel_friend_request(request, requestID):
 
 @login_required(login_url='login')
 def profile_page(request, profileID):
-    User = get_user_model()
-    show_profile = User.objects.get(id=profileID)
     posts = PostWall.objects.filter(user=profileID) | PostWall.objects.filter(user__friends=profileID)
     posts_order = posts.order_by('-pub_date').distinct()
+    paginator = Paginator(posts_order, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    User = get_user_model()
+    show_profile = User.objects.get(id=profileID)
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()
@@ -154,11 +157,10 @@ def profile_page(request, profileID):
             form_edit_post_save.save()
 
     content = {
+        'page_obj': page_obj,
         'show_profile' : show_profile,
         'my_friend_requests': my_friend_requests,
         'all_friend_requests': all_friend_requests,
-        'posts' : posts,
-        'posts_order' : posts_order,
         'friend_number' : friend_number,
         'friends_list_all' : friends_list_all,
         'form' : form,
@@ -267,6 +269,7 @@ def editprofile(request):
         form_edit = EditProfile(request.POST, request.FILES, instance=current_user.profile)
         if form_edit.is_valid():
             form_edit.save()
+            messages.info(request, 'Your profile has been saved successfully!')
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance=current_user)
         if form.is_valid():

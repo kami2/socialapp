@@ -37,6 +37,21 @@
       <img src="{% static 'ubek/assets/img/path4.png' %}" class="path">
       <div class="container align-items-center">
         <div class="row">
+          <div class="col-sm-6">
+
+        {% for message in messages %}
+        <div class="alert alert-info alert-with-icon">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+            </button>
+            <span data-notify="icon" class="tim-icons icon-trophy"></span>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-6 col-md-6">
             <h5 class="text-on-back" style="font-size:40px">Edit Profile</h5>
             <div class="col-sm-6 col-lg-10">
