@@ -14,6 +14,10 @@ https://demos.creative-tim.com/blk-design-system/
 
 -Add notification after delete post
 
+-Add detail post page
+
+-Add read more functionality to longer posts
+
 
 -Profile Page
 -
@@ -49,6 +53,7 @@ Friend system:
 -Add cancel friend request
 
 -Add accept/decline friend request
+
 
 
 

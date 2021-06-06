@@ -36,44 +36,16 @@
 
 
       <div class="col-sm-8">
-      {% if show_profile == request.user %}
-      <form method='POST' action="">
-        {% autoescape off %}
-        {% csrf_token %}
-        <div class="card">
-        <div class="card-body">
-            <div>{{ form.user }}</div>
-            <div>{{ form.title }}</div>
-            <div style="display: inline-block;">{{ form.text }}</div>
-            <div><button class="btn btn-primary" type="submit" name="Add Post">Add post</button></div>
-        </div>
-        </div>
-        {% endautoescape %}
-      </form>
-      {% endif %}
 
-          {% for message in messages %}
-        <div class="alert alert-info alert-with-icon">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="tim-icons icon-simple-remove"></i>
-            </button>
-            <span data-notify="icon" class="tim-icons icon-trophy"></span>
-            <span>{{ message }}</span>
-        </div>
-        {% endfor %}
-
-         {% if posts_order %}
          <div class="row">
-            <div class="col text-right"><h2 class="text-muted">POSTS</h2></div>
+            <div class="col text-right"><h2 class="text-muted">POST</h2></div>
          </div>
-         {% endif %}
 
       <!-- POST -->
-      {% for post in posts_order %}
       <div class="card">
         <div class="card-header row">
-            <a href="{% url 'profile page' post.user.id %}">
-             <img src="{{ post.user.profile.profile_photo.url }}"
+            <a href="{% url 'profile page' posts.user.id %}">
+             <img src="{{ posts.user.profile.profile_photo.url }}"
                                        style="width: 50px;
                                               margin-left: 10px;
                                               margin-top: -10px;
@@ -81,27 +53,21 @@
                                               height: 50px;
                                               border-radius: 50%;
                                               margin-bottom: 5px;"></a>
-            <div class="col-sm-4"><a href="{% url 'profile page' post.user.id %}">{{ post.user.first_name }} {{ post.user.last_name }}</a></div>
-            <div class="col-sm-7" align="right">{{ post.pub_date }} </div>
+            <div class="col-sm-4"><a href="{% url 'profile page' posts.user.id %}">{{ posts.user.first_name }} {{ posts.user.last_name }}</a></div>
+            <div class="col-sm-7" align="right">{{ posts.pub_date }} </div>
         </div>
 
 
         <div class="row" style="margin-left: 15px; margin-bottom: 0px;">
-            <div class="col-sm-12"><h3><a style="color: white;" href="{% url 'post detail' post.id %}">{{ post.title }}</a></h3></div>
+            <div class="col-sm-12"><h3>{{ posts.title }}</h3></div>
         </div>
 
-        {% if post.text|length > 100 %}
+
         <div class="card-body" style="margin-top: -35px;">
-          <p>{{ post.text|truncatewords:70 }} <a href="{% url 'post detail' post.id %}">Read more</a></p>
+          <p>{{ posts.text }}</p>
         </div>
-        {% else %}
-        <div class="card-body" style="margin-top: -35px;">
-          <p>{{ post.text }}</p>
-        </div>
-        {% endif %}
 
-
-          {% if post.user == request.user and show_profile == request.user %}
+          {% if posts.user == request.user and show_profile == request.user %}
         <div class="row" style="margin-right: 0px; margin-bottom: 5px;">
             <div class="col" align="right">
             <div class="btn-group">
@@ -109,9 +75,9 @@
                         <i class="tim-icons icon-pencil"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" data-toggle="modal" data-target="#editpost{{post.id}}" href="#">Edit</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#editpost{{posts.id}}" href="#">Edit</a>
                 <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'delete post' post.id %}">Delete Post</a>
+                    <a class="dropdown-item" href="{% url 'delete post' posts.id %}">Delete Post</a>
 
             </div>
             </div>
@@ -120,7 +86,7 @@
         {% endif %}
 
 
-      <div class="modal fade modal-black" id="editpost{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+      <div class="modal fade modal-black" id="editpost{{posts.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header justify-content-center">
@@ -136,12 +102,12 @@
                   {% csrf_token %}
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
-                    <input class="form-control" value="{{ post.title }}" name="{{ form_edit_post.title.name }}">
+                    <input class="form-control" value="{{ posts.title }}" name="{{ form_edit_post.title.name }}">
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-alternative">
-                      <textarea class="form-control" name="{{ form_edit_post.text.name }}">{{ post.text }}</textarea>
+                      <textarea class="form-control" name="{{ form_edit_post.text.name }}">{{ posts.text }}</textarea>
                   </div>
                 </div>
                 <div class="text-center">
@@ -154,7 +120,6 @@
       </div>
 
       </div>
-      {% endfor %}
      <!-- END POST -->
       </div>
   </div>

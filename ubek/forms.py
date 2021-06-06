@@ -53,6 +53,9 @@ class EditProfile(ModelForm):
         }
 
 class EditUserForm(UserChangeForm):
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
     class Meta:
         User = get_user_model()
         model = User

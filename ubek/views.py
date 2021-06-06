@@ -6,7 +6,7 @@ from .models import Friend_Request, User, PostWall
 from django.contrib import messages
 from .forms import CreateUserForm, EditProfile, EditUserForm, PostForm, EditPostForm
 
-
+@login_required(login_url='login')
 def home(request):
     profileID = request.user.id
     return redirect('profile page', profileID = profileID)
@@ -166,6 +166,39 @@ def profile_page(request, profileID):
     }
 
     return render(request, 'ubek/profile/profile.html', content)
+
+
+
+@login_required(login_url='login')
+def post_detail(request, postID):
+    User = get_user_model()
+    posts = PostWall.objects.get(id=postID)
+    show_profile = User.objects.get(id=posts.user.id)
+    my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
+    all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
+    friend_number = show_profile.friends.all().count()
+    friends_list_all = show_profile.friends.all()[:6]
+    form_edit_post = EditPostForm()
+
+    if request.method == 'POST' and 'Edit Post' in request.POST:
+        post_id = request.POST['Edit Post']
+        form_edit_post = EditPostForm(request.POST, instance=PostWall.objects.get(id=post_id))
+        if form_edit_post.is_valid():
+            form_edit_post_save = form_edit_post.save(commit=False)
+            form_edit_post_save.user = request.user
+            form_edit_post_save.save()
+
+    content = {
+        'show_profile' : show_profile,
+        'my_friend_requests': my_friend_requests,
+        'all_friend_requests': all_friend_requests,
+        'posts' : posts,
+        'friend_number' : friend_number,
+        'friends_list_all' : friends_list_all,
+        'form_edit_post' : form_edit_post,
+    }
+
+    return render(request, 'ubek/profile/post_detail.html', content)
 
 
 

@@ -62,9 +62,9 @@
         <div class="row">
               {% for user in my_sent_friend_requests %}
               <div class="col-sm-3">
-                <div align="center"><a href="{% url 'profile page' user.id %}"><img src="{{ user.to_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
+                <div align="center"><a href="{% url 'profile page' user.to_user.id %}"><img src="{{ user.to_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
                height: 80px; margin-top:15px;"></a></div>
-                <div align="center"><a href="{% url 'profile page' user.id %}"><p>{{ user.to_user.first_name|truncatechars:14 }} {{ user.to_user.last_name|truncatechars:14 }}</p></a></div>
+                <div align="center"><a href="{% url 'profile page' user.to_user.id %}"><p>{{ user.to_user.first_name|truncatechars:14 }} {{ user.to_user.last_name|truncatechars:14 }}</p></a></div>
                 <div align="center"><a href="{% url 'cancel friend request' user.id %}">cancel friend request</a></div>
               </div>
               {% endfor %}
@@ -85,9 +85,9 @@
         <div class="row">
               {% for user in request_from_user %}
               <div class="col-sm-3">
-                <div align="center"><a href="{% url 'profile page' user.id %}"><img src="{{ user.from_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
+                <div align="center"><a href="{% url 'profile page' user.from_user.id %}"><img src="{{ user.from_user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
                height: 80px; margin-top:15px;"></a></div>
-                <div align="center"><a href="{% url 'profile page' user.id %}"><p>{{ user.from_user.first_name|truncatechars:14 }} {{ user.from_user.last_name|truncatechars:14 }}</p></a></div>
+                <div align="center"><a href="{% url 'profile page' user.from_user.id %}"><p>{{ user.from_user.first_name|truncatechars:14 }} {{ user.from_user.last_name|truncatechars:14 }}</p></a></div>
                 <div align="center"><a href="{% url 'accept friend request' user.id %}">accept friend request</a></div>
                 <div align="center"><a href="{% url 'decline_friend_request' user.id %}">decline friend request</a></div>
               </div>
