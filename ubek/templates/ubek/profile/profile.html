@@ -36,6 +36,16 @@
 
 
   <div class="col-sm-8">
+      {% for message in messages %}
+        <div class="alert alert-info alert-with-icon">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+            </button>
+            <span data-notify="icon" class="tim-icons icon-trophy"></span>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+
       {% if show_profile == request.user %}
       <form method='POST' action="">
         {% autoescape off %}
@@ -52,15 +62,7 @@
       </form>
       {% endif %}
 
-        {% for message in messages %}
-        <div class="alert alert-info alert-with-icon">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="tim-icons icon-simple-remove"></i>
-            </button>
-            <span data-notify="icon" class="tim-icons icon-trophy"></span>
-            <span>{{ message }}</span>
-        </div>
-        {% endfor %}
+
 
          {% if posts_order %}
          <div class="row">

@@ -27,6 +27,7 @@ https://demos.creative-tim.com/blk-design-system/
 -
 -Add Profile Page
 
+-Now your profile can be visible only for your friends (checkbox in edit profile page)
 
 -Rewrited and deleted massive amount of code
 

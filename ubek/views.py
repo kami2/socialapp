@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, logout, login, get_user_model
 from .models import Friend_Request, User, PostWall
 from django.contrib import messages
+from django.http import HttpResponse
 from .forms import CreateUserForm, EditProfile, EditUserForm, PostForm, EditPostForm
 
 @login_required(login_url='login')
@@ -133,6 +134,9 @@ def profile_page(request, profileID):
     page_obj = paginator.get_page(page_number)
     User = get_user_model()
     show_profile = User.objects.get(id=profileID)
+    if show_profile.profile.visible is False and show_profile != request.user and request.user not in show_profile.friends.all():
+        messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
+        return redirect('home')
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()
@@ -176,6 +180,9 @@ def post_detail(request, postID):
     User = get_user_model()
     posts = PostWall.objects.get(id=postID)
     show_profile = User.objects.get(id=posts.user.id)
+    if show_profile.profile.visible is False and show_profile != request.user and request.user not in show_profile.friends.all():
+        messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
+        return redirect('home')
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()
@@ -208,6 +215,9 @@ def post_detail(request, postID):
 def profile_friends(request, profileID):
     User = get_user_model()
     show_profile = User.objects.get(id=profileID)
+    if show_profile.profile.visible is False and show_profile != request.user and request.user not in show_profile.friends.all():
+        messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
+        return redirect('home')
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()
@@ -231,6 +241,9 @@ def profile_friends(request, profileID):
 def profile_about(request, profileID):
     User = get_user_model()
     show_profile = User.objects.get(id=profileID)
+    if show_profile.profile.visible is False and show_profile != request.user and request.user not in show_profile.friends.all():
+        messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
+        return redirect('home')
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()

@@ -14,6 +14,7 @@ class Profile(models.Model):
     profile_photo = models.ImageField(upload_to='user_avatar', default='default_avatar.png')
     about = models.TextField(default="Jakis tekst")
     birth_date = models.DateField(null=True, blank=True)
+    visible = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.user)
