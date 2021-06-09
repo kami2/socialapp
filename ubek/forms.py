@@ -2,7 +2,7 @@ from django.forms import ModelForm, Textarea
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django import forms
-from .models import Profile, PostWall
+from .models import Profile, PostWall, CommentPost
 
 
 
@@ -76,6 +76,14 @@ class PostForm(ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Post title', 'class': 'form-control'}),
         }
+
+class CommentForm(ModelForm):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Add comment to this post',
+                                                        'class': 'form-control',
+                                                        'style': 'height: 60px;width:500px'}))
+    class Meta:
+        model = CommentPost
+        fields = ['comment']
 
 class EditPostForm(ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'What are you thinking?',

@@ -2,10 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, logout, login, get_user_model
-from .models import Friend_Request, User, PostWall
+from .models import Friend_Request, User, PostWall, CommentPost
 from django.contrib import messages
 from django.http import HttpResponse
-from .forms import CreateUserForm, EditProfile, EditUserForm, PostForm, EditPostForm
+from .forms import CreateUserForm, EditProfile, EditUserForm, PostForm, EditPostForm, CommentForm
 
 @login_required(login_url='login')
 def home(request):
@@ -180,9 +180,13 @@ def post_detail(request, postID):
     User = get_user_model()
     posts = PostWall.objects.get(id=postID)
     show_profile = User.objects.get(id=posts.user.id)
+
     if show_profile.profile.visible is False and show_profile != request.user and request.user not in show_profile.friends.all():
         messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
         return redirect('home')
+
+    commentform = CommentForm()
+    comments = CommentPost.objects.filter(post = postID)
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()
@@ -196,8 +200,22 @@ def post_detail(request, postID):
             form_edit_post_save = form_edit_post.save(commit=False)
             form_edit_post_save.user = request.user
             form_edit_post_save.save()
+            messages.info(request, 'Post has been updated')
+            return redirect('post detail', post_id)
+
+    if request.method == 'POST' and 'Add Comment' in request.POST:
+        commentform = CommentForm(request.POST)
+        if commentform.is_valid():
+            commentform_save = commentform.save(commit=False)
+            commentform_save.user = request.user
+            commentform_save.post = posts
+            commentform_save.save()
+            messages.info(request, 'Your comment have been added')
+            return redirect('post detail', posts.id)
 
     content = {
+        'commentform' : commentform,
+        'comments' : comments,
         'show_profile' : show_profile,
         'my_friend_requests': my_friend_requests,
         'all_friend_requests': all_friend_requests,

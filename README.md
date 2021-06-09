@@ -20,6 +20,8 @@ https://demos.creative-tim.com/blk-design-system/
 
 -Add detail post page
 
+-Add comments to posts
+
 -Add read more functionality to longer posts
 
 

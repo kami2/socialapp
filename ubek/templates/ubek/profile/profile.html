@@ -104,8 +104,10 @@
         {% endif %}
 
 
-          {% if post.user == request.user and show_profile == request.user %}
+
         <div class="row" style="margin-right: 0px; margin-bottom: 5px;">
+            <div class="col" style="margin-left: 15px; margin-top: 5px;"><p><h5>Comments (<a href="{% url 'post detail' post.id %}">{{ post.comment.count }}</a>)</h5></p></div>
+            {% if post.user == request.user and show_profile == request.user %}
             <div class="col" align="right">
             <div class="btn-group">
             <button type="button" class="btn btn-default btn-icon dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -119,8 +121,9 @@
             </div>
             </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
+
 
 
       <div class="modal fade modal-black" id="editpost{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">

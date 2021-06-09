@@ -36,8 +36,16 @@ class PostWall(models.Model):
     pub_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.title)
 
+class CommentPost(models.Model):
+    post = models.ForeignKey(PostWall, on_delete=models.CASCADE, related_name='comment')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField()
+    pub_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.post)
 
 class Friend_Request(models.Model):
     from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
