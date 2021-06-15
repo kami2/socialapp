@@ -19,6 +19,7 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -34,9 +35,11 @@ class PostWall(models.Model):
     title = models.CharField(max_length=160)
     text = models.TextField()
     pub_date = models.DateTimeField(auto_now=True)
+    like_post = models.ManyToManyField(User, related_name='liked')
 
     def __str__(self):
         return str(self.title)
+
 
 class CommentPost(models.Model):
     post = models.ForeignKey(PostWall, on_delete=models.CASCADE, related_name='comment')
@@ -46,6 +49,7 @@ class CommentPost(models.Model):
 
     def __str__(self):
         return str(self.post)
+
 
 class Friend_Request(models.Model):
     from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)

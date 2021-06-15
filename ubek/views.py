@@ -4,7 +4,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, logout, login, get_user_model
 from .models import Friend_Request, User, PostWall, CommentPost
 from django.contrib import messages
-from django.http import HttpResponse
+from django.urls import reverse
+from django.http import HttpResponseRedirect, HttpResponse
 from .forms import CreateUserForm, EditProfile, EditUserForm, PostForm, EditPostForm, CommentForm
 
 @login_required(login_url='login')
@@ -186,6 +187,8 @@ def post_detail(request, postID):
         return redirect('home')
 
     commentform = CommentForm()
+    like = bool(posts.like_post.filter(id=request.user.id))
+    print (like)
     comments = CommentPost.objects.filter(post = postID)
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
@@ -214,6 +217,7 @@ def post_detail(request, postID):
             return redirect('post detail', posts.id)
 
     content = {
+        'like ' : like,
         'commentform' : commentform,
         'comments' : comments,
         'show_profile' : show_profile,
@@ -277,6 +281,20 @@ def profile_about(request, profileID):
 
     return render(request, 'ubek/profile/profile_about.html', content)
 
+
+
+@login_required(login_url='login')
+def like_post(request, postID):
+    if request.method == 'POST':
+        post = PostWall.objects.get(id=postID)
+        if post.like_post.filter(id=request.user.id).exists():
+            post.like_post.remove(request.user)
+            messages.info(request, 'post unliked')
+            return redirect('post detail', post.id)
+        else:
+            post.like_post.add(request.user)
+            messages.info(request, 'post liked')
+            return redirect('post detail', post.id)
 
 
 @login_required(login_url='login')

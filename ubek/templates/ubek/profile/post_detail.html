@@ -77,8 +77,20 @@
           <p>{{ posts.text }}</p>
         </div>
 
-          {% if posts.user == request.user and show_profile == request.user %}
+
         <div class="row" style="margin-right: 0px; margin-bottom: 5px;">
+            <div class="col" style="margin-left: 15px; margin-top: 5px;">
+                <form method="POST" action="{% url 'like post' posts.id %}">
+                    {% csrf_token %}
+                    {% if like is False %}
+                    <button type="submit" name="postID" value="{{ posts.id }}" class="btn btn-primary btn-sm">unLike</button>
+                    {% else %}
+                    <button type="submit" name="postID" value="{{ posts.id }}" class="btn btn-primary btn-sm">Like</button>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="col" style="margin-left: 15px; margin-top: 5px;"><p><h5>Comments (<a href="{% url 'post detail' posts.id %}">{{ posts.comment.count }}</a>)</h5></p></div>
+            {% if posts.user == request.user and show_profile == request.user %}
             <div class="col" align="right">
             <div class="btn-group">
             <button type="button" class="btn btn-default btn-icon dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -92,8 +104,9 @@
             </div>
             </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
+
 
 
 
