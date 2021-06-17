@@ -79,13 +79,13 @@
 
 
         <div class="row" style="margin-right: 0px; margin-bottom: 5px;">
-            <div class="col" style="margin-left: 15px; margin-top: 5px;">
+            <div class="col-sm-2" style="margin-left: 15px;">
                 <form method="POST" action="{% url 'like post' posts.id %}">
                     {% csrf_token %}
-                    {% if like is False %}
-                    <button type="submit" name="postID" value="{{ posts.id }}" class="btn btn-primary btn-sm">unLike</button>
+                    {% if like %}
+                    <div><button type="submit" name="postID" value="{{ posts.id }}" class="btn btn-primary btn-sm">Liked <i class="far fa-thumbs-up"></i> ({{ posts.like_post.count }})</button></div>
                     {% else %}
-                    <button type="submit" name="postID" value="{{ posts.id }}" class="btn btn-primary btn-sm">Like</button>
+                    <button type="submit" name="postID" value="{{ posts.id }}" class="btn btn-primary btn-neutral btn-sm">Like <i class="far fa-thumbs-up"></i> ({{ posts.like_post.count }})</button>
                     {% endif %}
                 </form>
             </div>
@@ -179,8 +179,9 @@
       <div class="row">
               <div class="col-sm-3"></div>
               <div class="col-sm-9">
-                <div class="card">
-                    {% for comment in comments %}
+                <div class="card infinite-container">
+                    {% for comment in page_obj %}
+                    <div class="infinite-item">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-sm-7" align="left" style="margin-top: -5px; margin-left: -5px;">
@@ -201,11 +202,33 @@
                     <p>{{ comment.comment }}</p>
                     <hr style="border-top: 1px solid #7e2ddb; width: 100%">
                 </div>
+                    </div>
                     {% endfor %}
                 </div>
               </div>
       </div>
       <!-- END COMMENTS -->
+              {% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">More</a>
+    {% endif %}
+
+  </div>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+
+      offset: 'bottom-in-view',
+
+      onBeforePageLoad: function () {
+
+      },
+      onAfterPageLoad: function () {
+
+      }
+
+    });
+  </script>
       </div>
 </div>
 </div>

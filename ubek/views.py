@@ -133,6 +133,7 @@ def profile_page(request, profileID):
     paginator = Paginator(posts_order, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     User = get_user_model()
     show_profile = User.objects.get(id=profileID)
     if show_profile.profile.visible is False and show_profile != request.user and request.user not in show_profile.friends.all():
@@ -144,6 +145,8 @@ def profile_page(request, profileID):
     friends_list_all = show_profile.friends.all()[:6]
     form_edit_post = EditPostForm()
     form = PostForm()
+
+
 
     if request.method == 'POST' and 'Add Post' in request.POST:
         form = PostForm(request.POST)
@@ -188,8 +191,11 @@ def post_detail(request, postID):
 
     commentform = CommentForm()
     like = bool(posts.like_post.filter(id=request.user.id))
-    print (like)
     comments = CommentPost.objects.filter(post = postID)
+    paginator = Paginator(comments, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     my_friend_requests = Friend_Request.objects.filter(to_user=request.user).count()
     all_friend_requests = Friend_Request.objects.filter(to_user=request.user).first()
     friend_number = show_profile.friends.all().count()
@@ -217,7 +223,8 @@ def post_detail(request, postID):
             return redirect('post detail', posts.id)
 
     content = {
-        'like ' : like,
+        'like' : like,
+        'page_obj' : page_obj,
         'commentform' : commentform,
         'comments' : comments,
         'show_profile' : show_profile,
@@ -289,12 +296,15 @@ def like_post(request, postID):
         post = PostWall.objects.get(id=postID)
         if post.like_post.filter(id=request.user.id).exists():
             post.like_post.remove(request.user)
-            messages.info(request, 'post unliked')
-            return redirect('post detail', post.id)
+            if 'postID' in request.POST:
+                return HttpResponseRedirect(reverse('post detail', args=[str(postID)]))
         else:
             post.like_post.add(request.user)
-            messages.info(request, 'post liked')
-            return redirect('post detail', post.id)
+            if 'postID' in request.POST:
+                return HttpResponseRedirect(reverse('post detail', args=[str(postID)]))
+    return HttpResponseRedirect(reverse('profile page', args=[str(request.user.id)]))
+
+
 
 
 @login_required(login_url='login')

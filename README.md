@@ -10,7 +10,9 @@ https://demos.creative-tim.com/blk-design-system/
 -Post Wall
 -
 
--Add Endless scroll (django pagination + infinity.js and waypoint.js)
+-Add like button and like counter for posts (no js)
+
+-Add Endless scroll for posts (django pagination + infinity.js and waypoint.js)
 
 -Add PostWall (you can add/edit/delete post)
 
@@ -20,7 +22,7 @@ https://demos.creative-tim.com/blk-design-system/
 
 -Add detail post page
 
--Add comments to posts
+-Add comments to posts on detail post page (add endless scroll for comments)
 
 -Add read more functionality to longer posts
 

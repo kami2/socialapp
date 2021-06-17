@@ -46,6 +46,7 @@
         </div>
         {% endfor %}
 
+
       {% if show_profile == request.user %}
       <form method='POST' action="">
         {% autoescape off %}
@@ -63,8 +64,8 @@
       {% endif %}
 
 
-
          {% if page_obj %}
+      <br>
          <div class="row" style="margin-bottom: -20px; margin-top: -20px">
             <div class="col text-right"><h2 class="text-muted">POSTS</h2></div>
          </div>
@@ -106,6 +107,16 @@
 
 
         <div class="row" style="margin-right: 0px; margin-bottom: 5px;">
+            <div class="col-sm-2" style="margin-left: 15px;">
+                <form method="POST" action="{% url 'like post' post.id %}" name="post.id">
+                    {% csrf_token %}
+                    {% if request.user in post.like_post.all %}
+                    <button type="submit" name="profile" value="{{ post.id }}" class="btn btn-primary btn-sm">Liked <i class="far fa-thumbs-up"></i> ({{ post.like_post.count }})</button>
+                    {% else %}
+                    <button type="submit" name="profile" value="{{ post.id }}" class="btn btn-primary btn-neutral btn-sm">Like <i class="far fa-thumbs-up"></i> ({{ post.like_post.count }})</button>
+                    {% endif %}
+                </form>
+            </div>
             <div class="col" style="margin-left: 15px; margin-top: 5px;"><p><h5>Comments (<a href="{% url 'post detail' post.id %}">{{ post.comment.count }}</a>)</h5></p></div>
             {% if post.user == request.user and show_profile == request.user %}
             <div class="col" align="right">
