@@ -12,7 +12,7 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_photo = models.ImageField(upload_to='user_avatar', default='default_avatar.png')
-    about = models.TextField(default="Jakis tekst")
+    about = models.TextField(default="Say something about yourself")
     birth_date = models.DateField(null=True, blank=True)
     visible = models.BooleanField(default=True)
 

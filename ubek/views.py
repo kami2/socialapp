@@ -26,6 +26,7 @@ def login_user(request):
             if(user is None):
                 messages.info(request, 'Username OR password is incorrect')
             else:
+                print("show")
                 login(request, user)
                 return redirect('home')
 
