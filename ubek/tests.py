@@ -28,14 +28,24 @@ class LoginUserTest(TestCase):
         test_user = User(username='test', email='test@test.com')
         test_user.set_password('testtesttest')
         test_user.save()
-        self.test_user_user = test_user
-        self.test_user_pw = test_user.password
+        self.test_user = test_user
 
 
-    def test_login_user_view(self):
-        data = {"username" : "test", "password" : self.test_user_pw}
-        response = self.client.post('/login/', data, follow=True)
+    def test_login_user_incorrect(self):
+        data_test = {"username" : "test", "password" : "test_password"}
+        response = self.client.post('/login/', data_test, follow=True)
+        messages = list(response.context['messages'])
         status_code = response.status_code
-        self.assertIs(self.test_user_user.is_authenticated, True)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Username OR password is incorrect')
         self.assertEqual(status_code, 200)
+
+
+    def test_login_user_correct(self):
+        user = User.objects.create_user(username='testuser', password='12345')
+        data_test = {"username" : "testuser", "password" : "12345"}
+        response = self.client.post('/login/', data_test, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, '/profile/' + str(user.id) + '/' )
+
 
