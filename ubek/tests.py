@@ -28,15 +28,14 @@ class LoginUserTest(TestCase):
         test_user = User(username='test', email='test@test.com')
         test_user.set_password('testtesttest')
         test_user.save()
+        self.test_user_user = test_user
         self.test_user_pw = test_user.password
 
 
     def test_login_user_view(self):
-        login_url = self.client.get('/login/')
         data = {"username" : "test", "password" : self.test_user_pw}
-        response = self.client.post(login_url, data, follow=True)
+        response = self.client.post('/login/', data, follow=True)
         status_code = response.status_code
-        redirect_path = response.request.get('PATH_INFO')
-        #self.assertEqual(redirect_path, '/')
+        self.assertIs(self.test_user_user.is_authenticated, True)
         self.assertEqual(status_code, 200)
 
