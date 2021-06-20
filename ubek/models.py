@@ -17,11 +17,10 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     visible = models.BooleanField(default=True)
 
-    def can_see_profile(self):
-        if self.visible is False:
-            return redirect('home')
-        else:
-            return HttpResponse('tutaj redirect jak profil ma byc widoczny')
+
+    def can_not_see_profile(self, user_to_compare):
+        return self.visible is False and self.user != user_to_compare and user_to_compare not in self.user.friends.all()
+
 
     def __str__(self):
         return str(self.user)
