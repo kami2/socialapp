@@ -24,12 +24,6 @@ class ProfileModelTest(TestCase):
 
 class LoginUserTest(TestCase):
 
-    def setUp(self):
-        test_user = User(username='test', email='test@test.com')
-        test_user.set_password('testtesttest')
-        test_user.save()
-        self.test_user = test_user
-
 
     def test_login_user_incorrect(self):
         data_test = {"username" : "test", "password" : "test_password"}
@@ -47,5 +41,26 @@ class LoginUserTest(TestCase):
         response = self.client.post('/login/', data_test, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, '/profile/' + str(user.id) + '/' )
+
+
+class CanSeeMethodTest(TestCase):
+
+    def test_can_see_profile_method_default_visible(self):
+        profile1 = User.objects.create_user('test', 'test@test.com', 'testtesttest')
+        profile2 = User.objects.create_user('test2', 'test2@test.com', 'testtesttest2')
+        self.assertIs(profile1.profile.can_not_see_profile(profile2), False)
+
+    def test_can_see_profile_method_general(self):
+        profile1 = User.objects.create_user('test', 'test@test.com', 'testtesttest')
+        profile1.profile.visible = False
+        profile2 = User.objects.create_user('test2', 'test2@test.com', 'testtesttest2')
+        self.assertIs(profile1.profile.can_not_see_profile(profile2), True)
+
+    def test_can_see_profile_method_is_friend(self):
+        profile1 = User.objects.create_user('test', 'test@test.com', 'testtesttest')
+        profile1.profile.visible = False
+        profile2 = User.objects.create_user('test2', 'test2@test.com', 'testtesttest2')
+        profile1.friends.add(profile2)
+        self.assertFalse(profile1.profile.can_not_see_profile(profile2))
 
 

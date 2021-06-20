@@ -7,6 +7,14 @@
 I'm using blk design system for bootsrap:
 https://demos.creative-tim.com/blk-design-system/
 
+-Tests
+-
+
+-Add test for login_user view
+
+-Add tests for can_not_see_profile() method
+
+
 -Post Wall
 -
 
@@ -32,6 +40,8 @@ https://demos.creative-tim.com/blk-design-system/
 -Add Profile Page
 
 -Now your profile can be visible only for your friends (checkbox in edit profile page)
+
+-Re-writed visible statement (now you can call can_not_see_profile())
 
 -Rewrited and deleted massive amount of code
 
