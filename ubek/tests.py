@@ -62,3 +62,5 @@ class CanSeeMethodTest(TestCase):
         profile2 = User.objects.create_user('test2', 'test2@test.com', 'testtesttest2')
         profile1.friends.add(profile2)
         self.assertFalse(profile1.profile.can_not_see_profile(profile2))
+
+
