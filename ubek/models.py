@@ -2,12 +2,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.http import HttpResponse
 # Create your models here.
 
 class User(AbstractUser):
     friends = models.ManyToManyField("User", blank=True)
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -15,6 +16,12 @@ class Profile(models.Model):
     about = models.TextField(default="Say something about yourself")
     birth_date = models.DateField(null=True, blank=True)
     visible = models.BooleanField(default=True)
+
+    def can_see_profile(self):
+        if self.visible is False:
+            return redirect('home')
+        else:
+            return HttpResponse('tutaj redirect jak profil ma byc widoczny')
 
     def __str__(self):
         return str(self.user)
