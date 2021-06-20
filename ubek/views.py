@@ -185,7 +185,7 @@ def post_detail(request, postID):
     posts = PostWall.objects.get(id=postID)
     show_profile = User.objects.get(id=posts.user.id)
 
-    if show_profile.profile.can_see_profile(request.user):
+    if show_profile.profile.can_not_see_profile(request.user):
         messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
         return redirect('home')
 
