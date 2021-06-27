@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django import forms
 from .models import Profile, PostWall, CommentPost
+from .validators import validate_file_size
 
 
 
@@ -44,6 +45,7 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class EditProfile(ModelForm):
+    profile_photo = forms.ImageField(validators=[validate_file_size])
     class Meta:
         model = Profile
         fields = ['birth_date', 'profile_photo', 'about', 'visible']
