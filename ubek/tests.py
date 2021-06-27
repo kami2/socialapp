@@ -1,6 +1,7 @@
 from django.test import TestCase
-from .models import Profile, User
+from .models import Profile, User, PostWall
 from django.contrib.auth import get_user_model
+from .forms import EditPostForm
 
 
 # Create your tests here.
@@ -64,3 +65,34 @@ class CanSeeMethodTest(TestCase):
         self.assertFalse(profile1.profile.can_not_see_profile(profile2))
 
 
+class EditPostFormTest(TestCase):
+
+    def test_editpost_by_author(self):
+        author = User.objects.create_user('test', 'test@test.com', 'testtesttest')
+        logged_user = author
+        post = EditPostForm(data={
+            'user': author,
+            'title': 'test title',
+            'text': 'lorem ipsum'
+        })
+        if logged_user == author and post.is_valid():
+            post.save()
+            return 'Post Updated'
+
+        self.assertEqual('return', 'Post Updated')
+
+    def test_editpost_by_other_user_than_author(self):
+        author = User.objects.create_user('test', 'test@test.com', 'testtesttest')
+        logged_user = User.objects.create_user('test2', 'test2@test2.com', 'testtesttest2')
+        post = EditPostForm(data={
+            'user': author,
+            'title': 'test title',
+            'text': 'lorem ipsum'
+        })
+        if logged_user == author and post.is_valid():
+            post.save()
+            return 'Post Updated'
+        else:
+            return "Logged user is not author of this post so he cannot edit it"
+
+        self.assertEqual("return", "Logged user is not author of this post so he cannot edit it")
