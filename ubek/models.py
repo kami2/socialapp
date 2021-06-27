@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib import messages
-from django.shortcuts import redirect
-from django.http import HttpResponse
+from .validators import validate_file_size
 # Create your models here.
 
 class User(AbstractUser):
@@ -12,7 +10,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_photo = models.ImageField(upload_to='user_avatar', default='default_avatar.png')
+    profile_photo = models.ImageField(upload_to='user_avatar', default='default_avatar.png', validators=[validate_file_size])
     about = models.TextField(default="Say something about yourself")
     birth_date = models.DateField(null=True, blank=True)
     visible = models.BooleanField(default=True)
