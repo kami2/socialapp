@@ -159,10 +159,14 @@ def profile_page(request, profileID):
     if request.method == 'POST' and 'Edit Post' in request.POST:
         post_id = request.POST['Edit Post']
         form_edit_post = EditPostForm(request.POST, instance=PostWall.objects.get(id=post_id))
-        if form_edit_post.is_valid():
-            form_edit_post_save = form_edit_post.save(commit=False)
-            form_edit_post_save.user = request.user
-            form_edit_post_save.save()
+        author = PostWall.objects.get(id=post_id)
+        if request.user.id == author.user.id and form_edit_post.is_valid():
+            form_edit_post.save()
+            messages.info(request, 'Post has been updated')
+            return redirect('post detail', post_id)
+        else:
+            messages.info(request, 'You are not author of this post')
+            return redirect('home')
 
     content = {
         'page_obj': page_obj,
@@ -205,11 +209,13 @@ def post_detail(request, postID):
     if request.method == 'POST' and 'Edit Post' in request.POST:
         post_id = request.POST['Edit Post']
         form_edit_post = EditPostForm(request.POST, instance=PostWall.objects.get(id=post_id))
-        if form_edit_post.is_valid():
-            form_edit_post_save = form_edit_post.save(commit=False)
-            form_edit_post_save.user = request.user
-            form_edit_post_save.save()
+        author = PostWall.objects.get(id=post_id)
+        if request.user.id == author.user.id and form_edit_post.is_valid():
+            form_edit_post.save()
             messages.info(request, 'Post has been updated')
+            return redirect('post detail', post_id)
+        else:
+            messages.info(request, 'You are not author of this post')
             return redirect('post detail', post_id)
 
     if request.method == 'POST' and 'Add Comment' in request.POST:
