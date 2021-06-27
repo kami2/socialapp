@@ -54,11 +54,11 @@
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <h5 class="text-on-back" style="font-size:40px">Edit Profile</h5>
-            <div class="col-sm-6 col-lg-10">
+            <div class="col-sm-12 col-lg-12">
               <form method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                   About me:
-                <div>{{ form_edit.about }}</div>
+                <div class="textarea_width">{{ form_edit.about }}</div>
              <button class="btn btn-primary" type="submit" name="Update profile">Save changes</button>
             </div>
 

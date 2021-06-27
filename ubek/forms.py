@@ -44,7 +44,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class EditProfile(ModelForm):
-    about = forms.CharField(widget=forms.Textarea(attrs={'rows':13, 'cols': 70}))
     class Meta:
         model = Profile
         fields = ['birth_date', 'profile_photo', 'about', 'visible']
