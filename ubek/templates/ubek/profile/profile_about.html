@@ -42,7 +42,11 @@
       <!-- ABOUT -->
       <div class="card">
         <div class="card-header">
-          <h3>{{ show_profile.first_name }} {{ show_profile.last_name }} born in {{ show_profile.profile.birth_date }}</h3>
+          <h3>{{ show_profile.first_name }} {{ show_profile.last_name }}
+              {% if show_profile.profile.birth_date is not None %}
+              born in {{ show_profile.profile.birth_date }}
+              {% endif %}</h3>
+
         </div>
 
         <div class="card-body" style="margin-top: -35px;">
