@@ -44,7 +44,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class EditProfile(ModelForm):
-    about = forms.CharField(widget=forms.Textarea(attrs={'rows':13, 'cols': 70}))
     class Meta:
         model = Profile
         fields = ['birth_date', 'profile_photo', 'about', 'visible']
@@ -53,18 +52,22 @@ class EditProfile(ModelForm):
         }
 
 class EditUserForm(UserChangeForm):
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(max_length=50)
-    last_name = forms.CharField(max_length=50)
+    email = forms.EmailField(
+        max_length = 50,
+        widget = forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    first_name = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    last_name = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
     class Meta:
         User = get_user_model()
         model = User
         fields = ['first_name', 'last_name', 'email']
-        widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': 'First name', 'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Last name', 'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'placeholder': 'Email address', 'class': 'form-control'}),
-        }
 
 class PostForm(ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'What are you thinking?',

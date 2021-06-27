@@ -61,7 +61,7 @@ def registerPage(request):
 @login_required(login_url='login')
 def delete_friend(request, requestID):
     user = request.user
-    myfriend = User.objects.get(id=requestID)
+    myfriend = get_object_or_404(User, id=requestID)
     user.friends.remove(requestID)
     myfriend.friends.remove(request.user)
     messages.info(request, myfriend.first_name + ' ' + myfriend.last_name + ' deleted from your friends')
@@ -73,7 +73,7 @@ def delete_friend(request, requestID):
 def send_friend_request(request, userID):
     User = get_user_model()
     from_user = request.user
-    to_user = User.objects.get(id=userID)
+    to_user = get_object_or_404(User, id=userID)
     friend_request, created = Friend_Request.objects.get_or_create(
         from_user=from_user, to_user=to_user)
     if created:
@@ -87,7 +87,7 @@ def send_friend_request(request, userID):
 
 @login_required(login_url='login')
 def accept_friend_request(request, requestID):
-    friend_request = Friend_Request.objects.get(id=requestID)
+    friend_request = get_object_or_404(Friend_Request, id=requestID)
     if friend_request.to_user == request.user:
         friend_request.to_user.friends.add(friend_request.from_user)
         friend_request.from_user.friends.add(friend_request.to_user)
@@ -102,7 +102,7 @@ def accept_friend_request(request, requestID):
 
 @login_required(login_url='login')
 def decline_friend_request(request, requestID):
-    friend_request = Friend_Request.objects.get(id=requestID)
+    friend_request = get_object_or_404(Friend_Request, id=requestID)
     if friend_request.to_user == request.user:
         friend_request.delete()
         messages.info(request, 'Friend request decline')
@@ -115,7 +115,7 @@ def decline_friend_request(request, requestID):
 
 @login_required(login_url='login')
 def cancel_friend_request(request, requestID):
-    friend_request = Friend_Request.objects.get(id=requestID)
+    friend_request = get_object_or_404(Friend_Request, id=requestID)
     if friend_request.from_user == request.user:
         friend_request.delete()
         messages.info(request, 'Friend request canceled')
@@ -135,7 +135,7 @@ def profile_page(request, profileID):
     page_obj = paginator.get_page(page_number)
 
     User = get_user_model()
-    show_profile = User.objects.get(id=profileID)
+    show_profile = get_object_or_404(User, id=profileID)
     if show_profile.profile.can_not_see_profile(request.user):
         messages.info(request, 'You need to be friends with ' + show_profile.first_name + ' to see his profile')
         return redirect('home')
@@ -182,7 +182,7 @@ def profile_page(request, profileID):
 @login_required(login_url='login')
 def post_detail(request, postID):
     User = get_user_model()
-    posts = PostWall.objects.get(id=postID)
+    posts = get_object_or_404(PostWall, id=postID)
     show_profile = User.objects.get(id=posts.user.id)
 
     if show_profile.profile.can_not_see_profile(request.user):
@@ -377,9 +377,9 @@ def profile_friends_add(request):
 
     return render(request, 'ubek/profile/profile_friends_advanced.html', content)
 
-
-
-
+def error_404(request, exception):
+    data = {}
+    return render(request, 'ubek/error_page/404.html', data)
 
 
 
