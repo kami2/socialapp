@@ -91,9 +91,7 @@ class CommentForm(ModelForm):
         fields = ['comment']
 
 class EditPostForm(ModelForm):
-    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'What are you thinking?',
-                                                        'class': 'form-control',
-                                                        'style': 'height: 70px;width:700px'}))
+    text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
     class Meta:
         model = PostWall
         fields = ['title', 'text']
