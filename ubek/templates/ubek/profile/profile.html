@@ -95,9 +95,9 @@
         <div class="card-body" style="margin-top: -35px;">
           <p>{{ post.text|linebreaksbr|truncatewords:40 }} <a href="{% url 'post detail' post.id %}">Read more</a></p>
         </div>
-        {% elif post.count_new_lines == 0 %}
+        {% elif post.count_new_lines == 0 or post.text|length < 500 %}
         <div class="card-body" style="margin-top: -35px;">
-          <p>{{ post.text|truncatewords:30 }}</p>
+          <p>{{ post.text|truncatechars:400 }}</p>
         </div>
         {% elif post.count_new_lines > 6 and post.text|length > 30  %}
         <div class="card-body" style="margin-top: -35px;">
