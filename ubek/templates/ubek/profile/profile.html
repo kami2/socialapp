@@ -91,7 +91,6 @@
         <div class="row" style="margin-left: 15px; margin-bottom: 0px;">
             <div class="col-sm-12" style="margin-left: -15px"><h3><a style="color: white;" href="{% url 'post detail' post.id %}">{{ post.title }}</a></h3></div>
         </div>
-        {% load my_tags %}
         {% if post.count_new_lines <= 5 and post.count_new_lines > 0 and post.text|length > 10 %}
         <div class="card-body" style="margin-top: -35px;">
           <p>{{ post.text|linebreaksbr|truncatewords:40 }} <a href="{% url 'post detail' post.id %}">Read more</a></p>
