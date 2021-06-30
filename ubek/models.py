@@ -41,6 +41,9 @@ class PostWall(models.Model):
     pub_date = models.DateTimeField(auto_now=True)
     like_post = models.ManyToManyField(User, related_name='liked')
 
+    def count_new_lines(self):
+        return self.text.count("\n")
+
     def __str__(self):
         return str(self.title)
 
