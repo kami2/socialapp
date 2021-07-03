@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- HEAD -->
+{% include 'ubek/login/head.html' %}
+<!-- END HEAD -->
+<body class="landing-page">
+<div class="page-header">
+      <img src="{% static 'ubek/assets/img/blob.png' %}" class="path">
+      <img src="{% static 'ubek/assets/img/path2.png' %}" class="path2">
+      <img src="{% static 'ubek/assets/img/triunghiuri.png' %}" class="shapes triangle">
+      <img src="{% static 'ubek/assets/img/waves.png' %}" class="shapes wave">
+      <img src="{% static 'ubek/assets/img/patrat.png' %}" class="shapes squares">
+      <img src="{% static 'ubek/assets/img/cercuri.png' %}" class="shapes circle">
+      <div class="content-center">
+        <div class="row row-grid justify-content-between align-items-center text-left">
+          <div class="col-lg-6 col-md-6">
+            <h1 class="text-white">404
+              <br>
+              <span class="text-white">page not found</span>
+            </h1>
+            <p class="text-white mb-3">Sorry, we can't find that page!</p>
+            <div class="btn-wrapper mb-3">
+              <p class="category text-success d-inline"><a href="{% url 'home' %}">Back to the home page</a></p>
+              <a href="#blk" class="btn btn-success btn-link btn-sm"><i class="tim-icons icon-minimal-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-5">
+            <img src="{% static 'ubek/assets/img/etherum.png' %}" alt="Circle image" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
