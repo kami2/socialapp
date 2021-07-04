@@ -19,6 +19,7 @@ urlpatterns = [
     path('add-friend/', views.profile_friends_add, name='add_friend'),
     path('editprofile/', views.editprofile, name='editprofile'),
     path('delete_post/<int:requestID>/', views.delete_post, name='delete post'),
+    path('delete_comment/<int:postID>/<int:commentID>/', views.delete_comment, name='delete comment'),
     path('post/<int:postID>/', views.post_detail, name='post detail'),
     path('like/<int:postID>/', views.like_post, name='like post'),
 

@@ -200,6 +200,9 @@
                     </div>
                 <div class="card-body" style="margin-bottom: -25px">
                     <p>{{ comment.comment }}</p>
+                {% if comment.user == request.user %}
+                <div align="right"><a href="{% url 'delete comment' posts.id comment.id %}" style="color:white"><i class="tim-icons icon-trash-simple"></i></a></div>
+                {% endif %}
                     <hr style="border-top: 1px solid #7e2ddb; width: 100%">
                 </div>
                     </div>
