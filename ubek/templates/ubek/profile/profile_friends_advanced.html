@@ -108,7 +108,7 @@
         <div class="card-body" style="margin-top: -35px;">
         <div class="row">
               {% for user in all_users %}
-              <div class="col-sm-3">
+              <div class="col-3 col-lg-2">
                 <div align="center"><a href="{% url 'profile page' user.id %}"><img src="{{ user.profile.profile_photo.url }}" class="img-fluid rounded shadow-lg" style="width: 80px;
                height: 80px; margin-top:15px;"></a></div>
                 <div align="center"><a href="{% url 'profile page' user.id %}"><p>{{ user.first_name|truncatechars:14 }} {{ user.last_name|truncatechars:14 }}</p></a></div>
