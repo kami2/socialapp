@@ -52,9 +52,8 @@
         {% csrf_token %}
         <div class="card">
         <div class="card-body">
-            <div>{{ form.user }}</div>
             <div>{{ form.title }}</div>
-            <div style="display: inline-block;">{{ form.text }}</div>
+            <div class="textarea_width textarea_height">{{ form.text }}</div>
             <div><button class="btn btn-primary" type="submit" name="Add Post">Add post</button></div>
         </div>
         </div>
