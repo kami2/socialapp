@@ -159,7 +159,7 @@
                     <form method="POST" action="">
                         {% autoescape off %}
                         {% csrf_token %}
-                        {{ commentform.comment }}
+                        <div class="textarea_width textarea_comment">{{ commentform.comment }}</div>
                         <div align="right"><button class="btn btn-primary btn-sm" type="submit" name="Add Comment">Submit</button></div>
                         {% endautoescape %}
                     </form>

@@ -73,8 +73,7 @@ class EditUserForm(UserChangeForm):
 
 class PostForm(ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'What are you thinking?',
-                                                        'class': 'form-control',
-                                                        'style': 'height: 70px;width:700px'}))
+                                                        'class': 'form-control'}))
     class Meta:
         model = PostWall
         fields = ['title', 'text']
@@ -84,8 +83,7 @@ class PostForm(ModelForm):
 
 class CommentForm(ModelForm):
     comment = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Add comment to this post',
-                                                        'class': 'form-control',
-                                                        'style': 'height: 60px;width:500px'}))
+                                                        'class': 'form-control'}))
     class Meta:
         model = CommentPost
         fields = ['comment']

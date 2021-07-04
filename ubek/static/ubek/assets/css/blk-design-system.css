@@ -346,12 +346,6 @@ input[type="month"] {
   -webkit-appearance: listbox;
 }
 
-textarea {
-  rows: 4;
-  cols: 70;
-  resize: none;
-}
-
 fieldset {
   min-width: 0;
   padding: 0;

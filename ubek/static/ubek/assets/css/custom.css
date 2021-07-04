@@ -1,3 +1,9 @@
 .textarea_width > textarea {
 width: 100%
 }
+.textarea_height > textarea {
+height: 140px
+}
+.textarea_comment > textarea {
+height: 60px
+}
