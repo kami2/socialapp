@@ -164,9 +164,12 @@ def profile_page(request, profileID):
             form_edit_post.save()
             messages.info(request, 'Post has been updated')
             return redirect('post detail', post_id)
-        else:
+        elif request.user.id != author.user.id:
             messages.info(request, 'You are not author of this post')
-            return redirect('home')
+            return redirect('post detail', post_id)
+        else:
+            messages.info(request, 'Your post cannot be edited')
+            return redirect('post detail', post_id)
 
     content = {
         'page_obj': page_obj,
@@ -214,8 +217,11 @@ def post_detail(request, postID):
             form_edit_post.save()
             messages.info(request, 'Post has been updated')
             return redirect('post detail', post_id)
-        else:
+        elif request.user.id != author.user.id:
             messages.info(request, 'You are not author of this post')
+            return redirect('post detail', post_id)
+        else:
+            messages.info(request, 'Your post cannot be edited')
             return redirect('post detail', post_id)
 
     if request.method == 'POST' and 'Add Comment' in request.POST:
