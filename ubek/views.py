@@ -225,7 +225,7 @@ def post_detail(request, postID):
             commentform_save.user = request.user
             commentform_save.post = posts
             commentform_save.save()
-            messages.info(request, 'Your comment have been added')
+            messages.info(request, 'Your comment is added')
             return redirect('post detail', posts.id)
 
     content = {
@@ -312,7 +312,6 @@ def like_post(request, postID):
 
 
 
-
 @login_required(login_url='login')
 def delete_post(request, requestID):
     post = PostWall.objects.get(id=requestID)
@@ -320,6 +319,18 @@ def delete_post(request, requestID):
     messages.info(request, 'Post deleted')
     return redirect('home')
 
+
+
+@login_required(login_url='login')
+def delete_comment(request, postID, commentID):
+    comment = CommentPost.objects.get(id=commentID)
+    if comment.user == request.user:
+        comment.delete()
+        messages.info(request, 'Comment deleted')
+        return redirect('post detail', postID)
+    else:
+        messages.info(request, "Comment couldn't have been deleted")
+        return redirect('post detail', postID)
 
 
 @login_required(login_url='login')
