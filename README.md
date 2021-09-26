@@ -1,4 +1,19 @@
+-DEMO >>> https://kamgray.smallhost.pl/
+-
 
+U can use one of those accounts:
+
+login/password
+
+test1/testtesttest
+
+test2/testtesttest
+
+test3/testtesttest
+
+test4/testtesttest
+
+Or create your own
 
 -Simple social app build in django.
 -
