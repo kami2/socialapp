@@ -69,7 +69,7 @@ https://demos.creative-tim.com/blk-design-system/
 -Others but still important (change later)
 -
 
--Add edit user profile with extended polls (used both UserChangeForm and ModelForm for extended User profile)
+-Add edit user profile
 
 -Add notification bar
 
